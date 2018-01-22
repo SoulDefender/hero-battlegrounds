@@ -1,0 +1,46 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.9.RELEASE'
+		dependencyManagementVersion = '0.5.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("io.spring.gradle:dependency-management-plugin:${dependencyManagementVersion}")
+	}
+}
+
+allprojects {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	
+	group = 'com.epam.microservice.sandbox'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = 1.8
+}
+
+subprojects {
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+	
+	repositories {
+		mavenCentral()
+	}
+	
+	dependencies {
+		compileOnly('org.projectlombok:lombok')
+		testCompile('org.springframework.boot:spring-boot-starter-test')
+	}
+
+	ext {
+		springCloudVersion = 'Edgware.SR1'
+	}
+
+	dependencyManagement {
+		imports {
+			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		}
+	}
+}
