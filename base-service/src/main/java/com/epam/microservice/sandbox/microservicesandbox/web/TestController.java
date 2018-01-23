@@ -1,7 +1,7 @@
 package com.epam.microservice.sandbox.microservicesandbox.web;
 
 import com.epam.microservice.sandbox.microservicesandbox.model.TestData;
-import com.epam.microservice.sandbox.microservicesandbox.service.TestDataReadService;
+import com.epam.microservice.sandbox.microservicesandbox.service.TestDataReadServiceImpl;
 import javax.ws.rs.core.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,12 +13,12 @@ import java.util.Collection;
  */
 @RestController
 @RequestMapping("/")
-public class TestDataController
+public class TestController
 {
 
-    private final TestDataReadService readService;
+    private final TestDataReadServiceImpl readService;
 
-    public TestDataController(TestDataReadService readService) {
+    public TestController(TestDataReadServiceImpl readService) {
         this.readService = readService;
     }
     

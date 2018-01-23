@@ -1,3 +1,7 @@
 jar {
     baseName = 'model'
 }
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+}

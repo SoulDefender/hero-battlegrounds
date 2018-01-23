@@ -1,4 +1,4 @@
-package com.epam.microservice.sandbox.microservicesandbox.config;
+package com.epam.microservice.sandbox.microservicesandbox.remote.config;
 
 import java.io.IOException;
 

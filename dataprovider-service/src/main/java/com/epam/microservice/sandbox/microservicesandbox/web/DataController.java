@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequestMapping("/")
 @RestController
-public class DataController
+public class DataController implements TestDataController
 {
 
     private final MongoTemplate mongoTemplate;
