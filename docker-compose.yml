@@ -1,0 +1,41 @@
+version: '3.2'
+
+services:
+  web:
+    base: ./base-service
+    depends_on:
+      - data
+      - config
+      - eureka
+    ports:
+      - 8090:8090
+  data:
+    base: ./dataprovider-service
+    ports:
+      - 8083:8083
+    depends_on:
+      - config
+      - eureka
+      - db
+  getaway:
+    base: ./getaway
+    ports:
+      - 8080:8080
+    depends_on:
+      - config
+      - eureka
+  eureka:
+    base: ./eureka-server
+    ports: 8766:8766
+    depends_on:
+      - config
+  config:
+    base: ./configuration-service
+    ports: 7666:7666
+  db:
+    image: mongo:3.7.1-jessie
+    volumes:
+      - "dbdata:/data/db"
+
+volumes:
+  dbdata:
