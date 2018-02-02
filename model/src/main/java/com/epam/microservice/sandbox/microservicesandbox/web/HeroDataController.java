@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface HeroDataController
 {
 	
-	@RequestMapping(value = "/hero/${name}", method = RequestMethod.GET, 
+	@RequestMapping(value = "/hero/{name}", method = RequestMethod.GET, 
 		produces = APPLICATION_JSON_VALUE)
 	Hero findHeroByName(@RequestParam String name);
 
