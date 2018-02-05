@@ -16,6 +16,8 @@ import { MessageService } from './message.service';
 import { AppRoutingModule } from './/app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
+import { StoreModule } from '@ngrx/store/src/store_module';
+import { heroReducer } from './reducers/heroes';
 
 
 @NgModule({
@@ -37,7 +39,8 @@ import { HeroSearchComponent } from './hero-search/hero-search.component';
     // Remove it when a real server is ready to receive requests.
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
-    )
+    ),
+    StoreModule.forRoot({heroes: heroReducer})
   ],
   providers: [HeroService, MessageService],
   bootstrap: [AppComponent]

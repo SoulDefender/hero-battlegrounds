@@ -3,6 +3,7 @@ import {Hero} from '../hero';
 import { ActivatedRoute } from '@angular/router';
 import { HeroService } from '../hero.service';
 import { Location } from '@angular/common';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-hero-details',
@@ -12,6 +13,7 @@ import { Location } from '@angular/common';
 export class HeroDetailsComponent implements OnInit {
 
   @Input() hero: Hero;
+  id: Subject<number> = new Subject<number>();
 
   constructor(
     private route: ActivatedRoute,
