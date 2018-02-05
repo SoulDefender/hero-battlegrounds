@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Hero} from '../hero';
 import {HeroService} from '../hero.service';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import {HeroStore} from "../reducers/heroes";
 
 @Component({
   selector: 'app-heroes',
@@ -12,7 +13,7 @@ import { Observable } from 'rxjs/Observable';
 export class HeroesComponent implements OnInit {
   heroes$: Observable<Hero[]>;
 
-  constructor(private heroService: HeroService, private store: Store<{heroes: Hero[]}>) {
+  constructor(private heroService: HeroService, private store: Store<HeroStore>) {
     this.heroes$ = store.select('heroes');
   }
 

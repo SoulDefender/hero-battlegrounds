@@ -6,6 +6,10 @@ export const DELETE_HERO = 'DELETE_HERO';
 export const UPDATE_HERO = 'UPDATE_HERO';
 export const UPDATE_HEROES = 'UPDATE_HEROES';
 
+export interface HeroStore {
+  heroes: Hero[];
+}
+
 export class HeroActionWithPayload implements Action {
   type: string;
   payload: Hero | Hero[];

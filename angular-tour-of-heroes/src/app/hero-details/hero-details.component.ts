@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { HeroService } from '../hero.service';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs/Subject';
+import {Store} from "@ngrx/store";
+import {HeroStore} from "../reducers/heroes";
 
 @Component({
   selector: 'app-hero-details',
@@ -18,7 +20,8 @@ export class HeroDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
-    private location: Location) { }
+    private location: Location,
+    private store: Store<HeroStore>) { }
 
   ngOnInit() {
     this.getHero();
@@ -26,7 +29,8 @@ export class HeroDetailsComponent implements OnInit {
 
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.heroService.getHero(id).subscribe(hero => this.hero = hero);
+    this.store.select('heroes').map(heroes => heroes.find(hero => hero.id == id))
+      .subscribe(hero => this.hero = hero);
   }
 
   goBack(): void {
