@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ADD_HERO, HeroActionWithPayload, UPDATE_HERO, DELETE_HERO, UPDATE_HEROES } from './reducers/heroes';
 import { Hero } from './hero';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, tap, flatMap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
 
 import { environment } from '../environments/environment';
@@ -19,30 +17,21 @@ export class HeroService {
 
   private heroesUrl = `${environment.appUrl}/api/heroes`;
 
-  constructor(private messageService: MessageService, private http: HttpClient,
-    private store: Store<{heroes: Hero[]}>) { }
+  constructor(private messageService: MessageService, private http: HttpClient) { }
 
-  getHeroes(): Observable<void> {
+  getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.heroesUrl)
     .pipe(
       tap(heroes => this.log(`fetched heroes`)),
-      catchError(this.handleError('getHeroes', [])),
-      flatMap(hero => {
-        this.store.dispatch({type: UPDATE_HEROES, payload: hero});
-        return of();
-      })
+      catchError(this.handleError('getHeroes', []))
     );
   }
 
-  getHero(id: number): Observable<void> {
+  getHero(id: number): Observable<Hero> {
     const url = `${this.heroesUrl}/${id}`;
     return this.http.get<Hero>(url).pipe(
       tap(_ => this.log(`fetched hero with id=${id}`)),
-      catchError(this.handleError<Hero>(`getHero id=${id}`)),
-      flatMap(hero => {
-        this.store.dispatch({type: UPDATE_HERO, payload: hero});
-        return of();
-      })
+      catchError(this.handleError<Hero>(`getHero id=${id}`))
     );
   }
 
@@ -63,22 +52,14 @@ export class HeroService {
   updateHero(hero: Hero): Observable<any> {
     return this.http.put(this.heroesUrl, hero, httpOptions).pipe(
       tap(_ => this.log(`updated hero with id=${hero.id}`)),
-      catchError(this.handleError<any>(`updateHero`)),
-      flatMap(_ => {
-        this.store.dispatch({type: UPDATE_HERO, payload: hero});
-        return of();
-      })
+      catchError(this.handleError<any>(`updateHero`))
     );
   }
 
   addHero(hero: Hero): Observable<Hero> {
     return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
       tap(_ => this.log(`added hero w/ id=${hero.id}`)),
-      catchError(this.handleError<Hero>(`addHero`)),
-      flatMap(_ => {
-        this.store.dispatch({type: ADD_HERO, payload: hero});
-        return of();
-      })
+      catchError(this.handleError<Hero>(`addHero`))
     );
   }
 
@@ -88,11 +69,7 @@ export class HeroService {
 
     return this.http.delete<Hero>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted hero id=${id}`)),
-      catchError(this.handleError<Hero>(`deleteHero`)),
-      flatMap(_ => {
-        this.store.dispatch({type: DELETE_HERO, payload: hero});
-        return of();
-      })
+      catchError(this.handleError<Hero>(`deleteHero`))
     );
   }
 

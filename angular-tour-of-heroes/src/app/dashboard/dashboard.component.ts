@@ -6,6 +6,7 @@ import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import { map } from "rxjs/operators";
 import { pipe } from "rxjs/Rx";
+import {HeroActions} from "../actions/actions";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,17 +15,16 @@ import { pipe } from "rxjs/Rx";
 })
 export class DashboardComponent implements OnInit {
 
-  $heroes: Observable<Hero[]>;
+  heroes$: Observable<Hero[]>;
 
   constructor(private heroService: HeroService, private store: Store<HeroStore>) { }
 
   ngOnInit() {
     this.getHeroes();
-    this.$heroes = this.store.select('heroes').map(heroes => heroes.slice(1, 5))
+    this.heroes$ = this.store.select('heroes').map(heroes => heroes.slice(1, 5))
   }
 
   getHeroes(): void {
-    this.heroService.getHeroes()
-      .subscribe();
+    this.store.dispatch(HeroActions.loadHeroes());
   }
 }

@@ -18,6 +18,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { StoreModule } from '@ngrx/store';
 import {heroReducer, HeroStore} from './reducers/heroes';
+import {EffectsModule} from "@ngrx/effects";
+import {HeroEffects} from "./effects/heroEffects";
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import {heroReducer, HeroStore} from './reducers/heroes';
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     ),
-    StoreModule.forRoot<HeroStore>({heroes: heroReducer})
+    StoreModule.forRoot<HeroStore>({heroes: heroReducer}),
+    EffectsModule.forRoot([ HeroEffects ])
   ],
   providers: [HeroService, MessageService],
   bootstrap: [AppComponent]

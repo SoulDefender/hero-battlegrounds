@@ -8,6 +8,8 @@ import { combineLatest } from 'rxjs/operators';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
+import {HeroStore} from "../reducers/heroes";
+import {Store} from "@ngrx/store";
 
 @Component({
   selector: 'app-hero-search',
@@ -18,7 +20,7 @@ export class HeroSearchComponent implements OnInit {
   heroes$: Observable<Hero[]>;
   private searchTerms = new Subject<string>();
 
-  constructor(private heroService: HeroService) {}
+  constructor(private store: Store<HeroStore>) {}
 
   search(term: string): void {
     this.searchTerms.next(term);
@@ -33,7 +35,8 @@ export class HeroSearchComponent implements OnInit {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.heroService.searchHeroes(term))
+      switchMap((term: string) => this.store.select('heroes')
+        .map(heroes => heroes.filter(h => h.name.startsWith(term))))
     );
   }
 }

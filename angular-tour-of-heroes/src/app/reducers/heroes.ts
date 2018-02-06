@@ -1,27 +1,20 @@
 import { Hero } from '../hero';
-import { Action } from '@ngrx/store';
-
-export const ADD_HERO = 'ADD_HERO';
-export const DELETE_HERO = 'DELETE_HERO';
-export const UPDATE_HERO = 'UPDATE_HERO';
-export const UPDATE_HEROES = 'UPDATE_HEROES';
+import {
+  LOAD_HEROES_SUCCESS, LOAD_HERO_BY_ID_SUCCESS, ADD_HERO_SUCCESS, DELETE_HERO_SUCCESS, UPDATE_HERO_SUCCESS,
+  HeroActions
+} from "../actions/actions";
 
 export interface HeroStore {
   heroes: Hero[];
 }
 
-export class HeroActionWithPayload implements Action {
-  type: string;
-  payload: Hero | Hero[];
-}
-
-export function heroReducer(state: Hero[] = [], action: HeroActionWithPayload) {
+export function heroReducer(state: Hero[] = [], action: HeroActions) {
   switch (action.type) {
-    case ADD_HERO:
-      return state.concat(action.payload);
-    case DELETE_HERO:
-      return state.filter(h => h.id === (action.payload as Hero).id);
-    case UPDATE_HERO:
+    case LOAD_HEROES_SUCCESS:
+      return action.payload as Hero[];
+    case DELETE_HERO_SUCCESS:
+      return state.filter(h => h.id === (action.payload as number));
+    case UPDATE_HERO_SUCCESS:
       return state.map(
         h => {
           if (h.id === (action.payload as Hero).id) {
@@ -29,8 +22,16 @@ export function heroReducer(state: Hero[] = [], action: HeroActionWithPayload) {
           }
           return h;
         });
-    case UPDATE_HEROES:
-        return action.payload as Hero[];
+    case LOAD_HERO_BY_ID_SUCCESS:
+        return state.map(
+          h => {
+            if (h.id === (action.payload as Hero).id) {
+              return action.payload as Hero;
+            }
+            return h;
+          });
+    case ADD_HERO_SUCCESS:
+        return state.concat(action.payload as Hero);
     default:
       return state;
   }

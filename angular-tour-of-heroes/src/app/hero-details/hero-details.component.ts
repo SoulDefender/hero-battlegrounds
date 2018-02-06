@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { Subject } from 'rxjs/Subject';
 import {Store} from "@ngrx/store";
 import {HeroStore} from "../reducers/heroes";
+import {HeroActions} from "../actions/actions";
 
 @Component({
   selector: 'app-hero-details',
@@ -29,7 +30,7 @@ export class HeroDetailsComponent implements OnInit {
 
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.store.select('heroes').map(heroes => heroes.find(hero => hero.id == id))
+    this.store.select('heroes').map(heroes => heroes.find(hero => hero.id === id))
       .subscribe(hero => this.hero = hero);
   }
 
@@ -38,7 +39,7 @@ export class HeroDetailsComponent implements OnInit {
   }
 
   save(): void {
-    this.heroService.updateHero(this.hero)
-      .subscribe(() => this.goBack());
+    this.store.dispatch(HeroActions.updateHero(this.hero))
+    this.goBack()
   }
 }

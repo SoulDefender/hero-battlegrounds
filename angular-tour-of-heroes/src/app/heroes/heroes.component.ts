@@ -4,6 +4,7 @@ import {HeroService} from '../hero.service';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import {HeroStore} from "../reducers/heroes";
+import {HeroActions} from "../actions/actions";
 
 @Component({
   selector: 'app-heroes',
@@ -18,18 +19,20 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes(): void {
-    this.heroService.getHeroes().subscribe();
+    this.store.dispatch(HeroActions.loadHeroes());
   }
 
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
-    this.heroService.addHero({ name } as Hero).subscribe();
+    console.log("add hero");
+    this.store.dispatch(HeroActions.addHero({ name } as Hero));
   }
 
   delete(hero: Hero): void {
-    this.heroService.deleteHero(hero).subscribe();
+    this.store.dispatch(HeroActions.deleteHero(hero.id));
   }
+
   ngOnInit() {
     this.getHeroes();
   }

@@ -9,10 +9,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HeroService } from '../hero.service';
 import { MessageService } from '../message.service';
 import { FormsModule } from '@angular/forms';
+import {Store, StoreModule} from "@ngrx/store";
+import {heroReducer, HeroStore} from "../reducers/heroes";
 
 describe('HeroDetailsComponent', () => {
   let component: HeroDetailsComponent;
   let fixture: ComponentFixture<HeroDetailsComponent>;
+  let store: Store<HeroStore>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,7 +24,12 @@ describe('HeroDetailsComponent', () => {
         CommonModule,
         HttpClientModule,
         HttpClientTestingModule,
-        FormsModule
+        FormsModule,
+        StoreModule.forRoot(
+          {
+            "heroes": heroReducer
+          }
+        )
       ],
       providers: [HeroService, MessageService],
       declarations: [ HeroDetailsComponent ]
@@ -30,6 +38,10 @@ describe('HeroDetailsComponent', () => {
   }));
 
   beforeEach(() => {
+    store = TestBed.get(Store);
+
+    spyOn(store, 'dispatch').and.callThrough();
+
     fixture = TestBed.createComponent(HeroDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
