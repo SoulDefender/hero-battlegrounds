@@ -13,7 +13,7 @@ export function heroReducer(state: Hero[] = [], action: HeroActions) {
     case LOAD_HEROES_SUCCESS:
       return action.payload as Hero[];
     case DELETE_HERO_SUCCESS:
-      return state.filter(h => h.id === (action.payload as number));
+      return state.filter(h => h.id !== (action.payload as number));
     case UPDATE_HERO_SUCCESS:
       return state.map(
         h => {

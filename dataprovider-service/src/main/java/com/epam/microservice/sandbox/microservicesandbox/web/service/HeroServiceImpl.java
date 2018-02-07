@@ -14,9 +14,7 @@ public class HeroServiceImpl implements HeroService {
 	private final MongoTemplate mongoTemplate;
 
 	public HeroServiceImpl(MongoTemplate mongoTemplate) {
-	
 		this.mongoTemplate = mongoTemplate;
-	
 	}
 
 	@Override

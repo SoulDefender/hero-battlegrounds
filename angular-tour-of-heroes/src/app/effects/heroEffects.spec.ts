@@ -55,7 +55,7 @@ describe('Effect Tests', () => {
     it('should return LOAD_HEROES_SUCCESS action for LOAD_HEROES_ACTION', async () => {
 
       const { effects, heroService, actions$ } = setup();
-      const heroes = [{id: '1', name: 'Eleven'}];
+      const heroes = [{id: 1, name: 'Eleven'}];
       heroService.getHeroes.and.returnValue(Observable.of(heroes));
 
       const action = HeroActions.loadHeroes();
