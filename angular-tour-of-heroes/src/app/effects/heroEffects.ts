@@ -19,7 +19,7 @@ export class HeroEffects {
 
   @Effect() loadHeroes$: Observable<Action> = this.actions$
     .ofType(LOAD_HEROES)
-    .switchMap(_ => this.heroService.getHeroes())
+    .switchMap(() => this.heroService.getHeroes())
     .map(heroes => HeroActions.loadHeroesSuccess(heroes));
 
   @Effect() addHero$ = this.actions$

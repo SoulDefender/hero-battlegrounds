@@ -31,7 +31,11 @@ subprojects {
 	
 	dependencies {
 		compileOnly('org.projectlombok:lombok')
-		testCompile('org.springframework.boot:spring-boot-starter-test')
+		implementation('one.util:streamex:0.6.6')
+		testImplementation('org.springframework.boot:spring-boot-starter-test')
+		testImplementation('junit:junit:4.12')
+		testImplementation('org.hamcrest:hamcrest-junit:2.0.0.0')
+		testImplementation('org.mockito:mockito-core:2.13.0')
 	}
 
 	ext {

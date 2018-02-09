@@ -1,0 +1,33 @@
+jar {
+    baseName = 'battlegrounds-service'
+}
+
+apply plugin: "jacoco"
+
+jacocoTestReport {
+    reports {
+        html.enabled = true
+    }
+}
+
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.2
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.springframework.cloud:spring-cloud-starter-config')
+    implementation('org.springframework.cloud:spring-cloud-starter-eureka')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.8.10')
+    implementation project(':model')
+}

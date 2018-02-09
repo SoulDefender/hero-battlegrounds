@@ -1,23 +1,30 @@
 version: '3.2'
 
 services:
-  web:
+  base-service:
     image: base-microservice
     build: ./base-service
     depends_on:
-      - data
+      - hero-service
       - config
       - eureka
     ports:
       - 8090:8090
-  data:
-    build: ./dataprovider-service
+  hero-service:
+    build: ./hero-service
     ports:
       - 8083:8083
     depends_on:
       - config
       - eureka
       - db
+  battlegrounds-service:
+    build: ./battlegrounds-service
+    depends_on:
+      - eureka
+      - config
+    ports:
+      - 8094:8094
   getaway:
     build: ./getaway
     ports:

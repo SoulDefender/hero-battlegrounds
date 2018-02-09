@@ -3,6 +3,13 @@ package com.epam.microservice.sandbox.microservicesandbox.model;
 /**
  * @author Dmytro_Maksutov
  */
-public class Environment
-{
+public enum Environment {
+    SNOW,
+    SAND,
+    HILLS,
+    MOUNTAINS,
+    CITY,
+    FIELD,
+    RAINLANDS,
+    MISTLANDS
 }
