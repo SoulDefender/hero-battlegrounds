@@ -51,7 +51,7 @@ public class BattlegroundsApplicationTest {
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-        Hero hero = new Hero("1", "Saitama", "Bald Cape", 27,
+        Hero hero = new Hero("1", "Saitama", "Bald Cape", 27, 71, 177, null,
                 new HeroCharacteristics(
                         100,
                         100,
@@ -61,7 +61,7 @@ public class BattlegroundsApplicationTest {
                         Arrays.asList(CITY, HILLS, MOUNTAINS, RAINLANDS, FIELD)
 
                 ));
-        Hero opponent = new Hero("2", "Garo", "Human Monster", 25,
+        Hero opponent = new Hero("2", "Garo", "Human Monster", 25, 77, 184, null,
                 new HeroCharacteristics(
                         75,
                         60,
@@ -99,6 +99,9 @@ public class BattlegroundsApplicationTest {
                 "das",
                 "sad",
                 -100,
+                -100,
+                -1,
+                null,
                 null
         ));
         this.mockMvc.perform(MockMvcRequestBuilders.post("/battlegrounds/sparring")

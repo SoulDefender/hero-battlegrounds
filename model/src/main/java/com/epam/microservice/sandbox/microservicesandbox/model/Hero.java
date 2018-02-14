@@ -1,16 +1,15 @@
 package com.epam.microservice.sandbox.microservicesandbox.model;
 
-import java.math.BigDecimal;
-import java.util.Optional;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 /**
  * @author Dmytro_Maksutov
@@ -30,6 +29,15 @@ public class Hero {
 
 	@Min(0)
 	private long ages;
+
+	@Min(0)
+	private long weight;
+
+	@Min(0)
+	private long height;
+
+	@URL
+	private String portraitUrl;
 
 	@Setter
 	@NotNull
