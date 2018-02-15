@@ -1,11 +1,13 @@
-<div id="search-component">
-  <h4>Hero Search</h4>
-
-  <input #searchBox type="text" id="search-box" (keyup)="search(searchBox.value)">
-
-  <ul class="search-result">
-    <li *ngFor="let hero of heroes$ | async">
-      <a routerLink="/detail/{{hero.id}}">{{hero.name}}</a>
-    </li>
-  </ul>
+<div class="ui grid">
+  <sm-segment class="column ten wide center">
+    <h4>Hero Search</h4>
+    <sm-input class="fluid" #searchBox icon="search" placeholder="search"
+              [control]="searchTerms"></sm-input>
+    <div class="ui divider"></div>
+    <sm-list class="animated divided relaxed">
+      <sm-item *ngFor="let hero of heroes$ | async" [image]="hero.portraitUrl" [header]="hero.title">
+        <a routerLink="/detail/{{hero.id}}">{{hero?.name}}</a>
+      </sm-item>
+    </sm-list>
+  </sm-segment>
 </div>

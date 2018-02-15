@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import {Actions, Effect} from "@ngrx/effects";
 import {HeroService} from "../hero.service";
 import {Action} from "@ngrx/store";
-import { of } from "rxjs/observable/of";
+import {of} from "rxjs/observable/of";
 import {ADD_HERO, DELETE_HERO, HeroActions, LOAD_HERO_BY_ID, LOAD_HEROES, UPDATE_HERO} from "../actions/actions";
 import {Hero} from "../hero";
 import {Observable} from "rxjs/Observable";
@@ -12,10 +12,9 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class HeroEffects {
 
-  constructor(
-    private actions$: Actions<HeroActions>,
-    private heroService: HeroService
-  ) {}
+  constructor(private actions$: Actions<HeroActions>,
+              private heroService: HeroService) {
+  }
 
   @Effect() loadHeroes$: Observable<Action> = this.actions$
     .ofType(LOAD_HEROES)
@@ -31,7 +30,10 @@ export class HeroEffects {
   @Effect() updateHero$ = this.actions$
     .ofType(UPDATE_HERO)
     .map(action => action.payload as Hero)
-    .switchMap(hero => this.heroService.updateHero(hero))
+    .switchMap(hero => {
+      this.heroService.updateHero(hero);
+      return of(hero)
+    })
     .map(hero => HeroActions.updateHeroSuccess(hero));
 
   @Effect() deleteHero$ = this.actions$

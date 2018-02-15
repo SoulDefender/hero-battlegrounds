@@ -6,6 +6,17 @@
       <input [(ngModel)]="hero.name" placeholder="name">
     </label>
   </div>
+  <div class="ui ui-segments">
+    <div class="ui ui-segment">
+      <p>Select Preferred Environments</p>
+      <sm-select class="fluid search multiple"
+                        [(ngModel)]="hero.characteristics.preferredEnvironments"
+                        [options]="{transition: 'vertical flip'}"
+                        [label]="'Preferred Env'" ngDefaultControl>
+        <option *ngFor="let env of envs">{{env}}</option>
+      </sm-select>
+    </div>
+  </div>
 </div>
 <button (click)="goBack()">go back</button>
 <button (click)="save()">save</button>

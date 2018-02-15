@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {Hero} from '../hero';
-import { ActivatedRoute } from '@angular/router';
-import { HeroService } from '../hero.service';
-import { Location } from '@angular/common';
-import { Subject } from 'rxjs/Subject';
+import {Component, OnInit, Input} from '@angular/core';
+import {Environment, Hero} from '../hero';
+import {ActivatedRoute} from '@angular/router';
+import {HeroService} from '../hero.service';
+import {Location} from '@angular/common';
+import {Subject} from 'rxjs/Subject';
 import {Store} from "@ngrx/store";
 import {HeroStore} from "../reducers/heroes";
 import {HeroActions} from "../actions/actions";
@@ -17,12 +17,16 @@ export class HeroDetailsComponent implements OnInit {
 
   @Input() hero: Hero;
   id: Subject<number> = new Subject<number>();
+  envs: string[] = [Environment.FIELD, Environment.RAINLANDS,
+    Environment.MOUNTAINS, Environment.CITY,
+    Environment.HILLS, Environment.MISTLANDS, Environment.SAND, Environment.SNOW];
 
-  constructor(
-    private route: ActivatedRoute,
-    private heroService: HeroService,
-    private location: Location,
-    private store: Store<HeroStore>) { }
+
+  constructor(private route: ActivatedRoute,
+              private heroService: HeroService,
+              private location: Location,
+              private store: Store<HeroStore>) {
+  }
 
   ngOnInit() {
     this.getHero();
@@ -31,7 +35,10 @@ export class HeroDetailsComponent implements OnInit {
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.store.select('heroes').map(heroes => heroes.find(hero => hero.id === id))
-      .subscribe(hero => this.hero = hero);
+      .subscribe(hero => {
+        this.hero = hero;
+        console.log(hero);
+      });
   }
 
   goBack(): void {

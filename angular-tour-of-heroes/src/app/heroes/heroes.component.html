@@ -7,10 +7,14 @@
     Add hero
   </button>
 </div>
-<ul class="heroes">
-  <li *ngFor="let hero of heroes$ | async">
-    <a routerLink="/detail/{{hero.id}}">
-      <span class="badge">{{hero.id}}</span> {{hero.name}}</a>
-    <button class="delete" title="delete hero" (click)="delete(hero)">x</button>
-  </li>
-</ul>
+<div class="ui large aligned divided list">
+  <div class="item" *ngFor="let hero of heroes$ | async">
+    <img src="{{hero.portraitUrl}}" alt="Hero Portrait" class="ui avatar image">
+    <div class="content">
+      <a routerLink="/detail/{{hero.id}}" class="header">
+       {{hero.title}} {{hero.name}}
+      </a>
+      <!--<button class="delete" title="delete hero" (click)="delete(hero)">x</button> -->
+    </div>
+  </div>
+</div>

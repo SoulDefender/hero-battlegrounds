@@ -20,7 +20,7 @@ import { StoreModule } from '@ngrx/store';
 import {heroReducer, HeroStore} from './reducers/heroes';
 import {EffectsModule} from "@ngrx/effects";
 import {HeroEffects} from "./effects/heroEffects";
-
+import {NgSemanticModule} from "ng-semantic";
 
 @NgModule({
   declarations: [
@@ -43,7 +43,8 @@ import {HeroEffects} from "./effects/heroEffects";
       InMemoryDataService, { dataEncapsulation: false }
     ),
     StoreModule.forRoot<HeroStore>({heroes: heroReducer}),
-    EffectsModule.forRoot([ HeroEffects ])
+    EffectsModule.forRoot([ HeroEffects ]),
+    NgSemanticModule
   ],
   providers: [HeroService, MessageService],
   bootstrap: [AppComponent]

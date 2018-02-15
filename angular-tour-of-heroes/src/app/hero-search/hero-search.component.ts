@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { of } from 'rxjs/observable/of';
-import { combineLatest } from 'rxjs/operators';
+import { of } from "rxjs/observable/of";
+import "rxjs/add/operator/take";
 
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Hero } from '../hero';
-import { HeroService } from '../hero.service';
 import {HeroStore} from "../reducers/heroes";
 import {Store} from "@ngrx/store";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-hero-search',
@@ -18,16 +18,12 @@ import {Store} from "@ngrx/store";
 })
 export class HeroSearchComponent implements OnInit {
   heroes$: Observable<Hero[]>;
-  private searchTerms = new Subject<string>();
+  searchTerms = new FormControl('');
 
   constructor(private store: Store<HeroStore>) {}
 
-  search(term: string): void {
-    this.searchTerms.next(term);
-  }
-
   ngOnInit(): void {
-    this.heroes$ = this.searchTerms.pipe(
+    this.heroes$ = this.searchTerms.valueChanges.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
 
@@ -36,7 +32,7 @@ export class HeroSearchComponent implements OnInit {
 
       // switch to new search observable each time the term changes
       switchMap((term: string) => this.store.select('heroes')
-        .map(heroes => heroes.filter(h => h.name.startsWith(term))))
+        .map(heroes => heroes.filter(h => h.name.startsWith(term))).take(10))
     );
   }
 }

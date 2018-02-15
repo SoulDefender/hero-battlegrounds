@@ -1,8 +1,8 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<h1>{{title}}</h1>
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/heroes">Heroes</a>
-</nav>
-<router-outlet></router-outlet>
-<app-messages *ngIf="!production"></app-messages>
+<div class="ui top fixed menu">
+  <a class="item" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+  <a class="item" routerLink="/heroes">Heroes</a>
+</div>
+<div class="main container">
+  <router-outlet></router-outlet>
+  <app-messages *ngIf="!production"></app-messages>
+</div>

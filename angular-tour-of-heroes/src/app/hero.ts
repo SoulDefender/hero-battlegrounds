@@ -15,16 +15,16 @@ export class HeroAbilities {
   intelligence: number;
   wisdom: number;
   magicPowerGrantedByUniverse: number;
-  preferredEnvironments: Environment[];
+  preferredEnvironments: string[];
 }
 
 export enum Environment {
-  SNOW,
-  SAND,
-  HILLS,
-  MOUNTAINS,
-  CITY,
-  FIELD,
-  RAINLANDS,
-  MISTLANDS
+  SNOW='SNOW',
+  SAND='SAND',
+  HILLS='HILLS',
+  MOUNTAINS='MOUNTAINS',
+  CITY='CITY',
+  FIELD='FIELD',
+  RAINLANDS='RAINLANDS',
+  MISTLANDS='MISTLANDS'
 }
