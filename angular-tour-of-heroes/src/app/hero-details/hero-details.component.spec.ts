@@ -11,6 +11,7 @@ import { MessageService } from '../message.service';
 import { FormsModule } from '@angular/forms';
 import {Store, StoreModule} from "@ngrx/store";
 import {heroReducer, HeroStore} from "../reducers/heroes";
+import {SuiModule} from "ng2-semantic-ui";
 
 describe('HeroDetailsComponent', () => {
   let component: HeroDetailsComponent;
@@ -29,7 +30,8 @@ describe('HeroDetailsComponent', () => {
           {
             "heroes": heroReducer
           }
-        )
+        ),
+        SuiModule
       ],
       providers: [HeroService, MessageService],
       declarations: [ HeroDetailsComponent ]

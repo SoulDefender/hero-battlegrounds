@@ -1,5 +1,7 @@
 import {Action} from "@ngrx/store";
-import {Hero} from "../hero";
+import {Environment, Hero} from "../hero";
+import {OpponentHeroes} from "../opponent-heroes";
+import {FightResult} from "../fight-result";
 
 export const LOAD_HEROES: string = '[GET] LOAD_HEROES';
 export const LOAD_HEROES_SUCCESS: string = '[CHANGE] LOAD_HEROES_SUCCESS';
@@ -13,6 +15,8 @@ export const UPDATE_HERO: string = '[PUT] UPDATE_HERO';
 export const UPDATE_HERO_SUCCESS: string = '[CHANGE] UPDATE_HERO_SUCCESS';
 export const DELETE_HERO: string = '[DELETE] DELETE_HERO';
 export const DELETE_HERO_SUCCESS: string = '[CHANGE] DELETE_HERO_SUCCESS';
+export const HERO_FIGHT: string = '[POST] HERO_FIGHT';
+export const HERO_FIGHT_RESULT: string = '[CHANGE] HERO_FIGHT_RESULT';
 
 export class HeroActions implements Action{
 
@@ -65,5 +69,20 @@ export class HeroActions implements Action{
   }
 
   constructor(public type: string, public payload?: number|string|Hero|Hero[]) {}
+
+}
+
+export class FightAction implements Action{
+
+  constructor(public type: string, public payload?: OpponentHeroes | FightResult) {}
+
+
+  static fightHeroes(hero: Hero, opponent: Hero, environment: Environment): FightAction {
+    return new FightAction(HERO_FIGHT, new OpponentHeroes(hero, opponent, environment));
+  }
+
+  static fightHeroesResult(fightResult: FightResult) {
+    return new FightAction(HERO_FIGHT_RESULT, fightResult);
+  }
 
 }

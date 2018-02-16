@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { HeroService } from '../hero.service';
-import { Hero } from '../hero';
+import {Component, OnInit} from '@angular/core';
+import {HeroService} from '../hero.service';
+import {Hero} from '../hero';
 import {HeroStore} from "../reducers/heroes";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
-import { map } from "rxjs/operators";
-import { pipe } from "rxjs/Rx";
 import {HeroActions} from "../actions/actions";
 
 @Component({
@@ -21,7 +19,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getHeroes();
-    this.heroes$ = this.store.select('heroes').map(heroes => heroes.slice(1, 5))
+    this.heroes$ = this.store.select('heroes').map(heroes => heroes.slice(0, 4))
   }
 
   getHeroes(): void {

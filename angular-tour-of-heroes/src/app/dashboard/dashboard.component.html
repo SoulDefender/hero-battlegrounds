@@ -1,11 +1,16 @@
 <div class="ui stackable grid container">
   <div class="column sixteen wide">
     <h3>Top Heroes</h3>
-    <sm-list class="horizontal">
-      <sm-item *ngFor="let hero of heroes$ | async" [image]="hero.portraitUrl" [header]="hero.title">
-        <a routerLink="/detail/{{hero.id}}">{{hero?.name}}</a>
-      </sm-item>
-    </sm-list>
+    <div class="ui relaxed horizontal list">
+      <div class="item" *ngFor="let hero of heroes$ | async">
+        <img [src]="hero.portraitUrl" alt="Hero Portrait" class="ui avatar image">
+        <div class="content">
+          <a routerLink="/detail/{{hero.id}}" class="header">
+            {{hero?.name}}
+          </a>
+        </div>
+      </div>
+    </div>
     <app-hero-search></app-hero-search>
   </div>
 </div>

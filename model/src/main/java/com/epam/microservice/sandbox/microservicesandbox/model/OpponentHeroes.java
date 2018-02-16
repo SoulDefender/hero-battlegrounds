@@ -12,10 +12,10 @@ import javax.validation.constraints.NotNull;
 public class OpponentHeroes {
 
     @NotNull
-    private Hero firstHero;
+    private Hero hero;
 
     @NotNull
-    private Hero secondHero;
+    private Hero opponent;
 
     @NotNull
     private Environment battleground;

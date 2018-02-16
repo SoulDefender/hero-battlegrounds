@@ -32,7 +32,7 @@ export class HeroSearchComponent implements OnInit {
 
       // switch to new search observable each time the term changes
       switchMap((term: string) => this.store.select('heroes')
-        .map(heroes => heroes.filter(h => h.name.startsWith(term))).take(10))
+        .map(heroes => heroes.filter(h => h.name.startsWith(term) && term !== '')).take(10))
     );
   }
 }

@@ -1,16 +1,17 @@
-import { cold, hot} from 'jasmine-marbles';
-import { async, TestBed } from '@angular/core/testing';
-import { Actions } from '@ngrx/effects';
-import { Store, StoreModule } from '@ngrx/store';
-import { getTestActions, TestActions } from '../helpers/helpers';
+import {cold, hot} from 'jasmine-marbles';
+import {async, TestBed} from '@angular/core/testing';
+import {Actions} from '@ngrx/effects';
+import {Store, StoreModule} from '@ngrx/store';
+import {getTestActions, TestActions} from '../helpers/helpers';
 
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 
 import 'rxjs/add/observable/of';
-import {HeroEffects} from "./heroEffects";
+import {HeroEffects} from "./hero-effects";
 import {HeroService} from "../hero.service";
 import {HeroActions} from "../actions/actions";
 import {heroReducer} from "../reducers/heroes";
+import {Environment} from "../hero";
 
 describe('Effect Tests', () => {
 
@@ -55,7 +56,26 @@ describe('Effect Tests', () => {
     it('should return LOAD_HEROES_SUCCESS action for LOAD_HEROES_ACTION', async () => {
 
       const { effects, heroService, actions$ } = setup();
-      const heroes = [{id: 1, name: 'Eleven'}];
+      const heroes = [
+        {
+          id: 11,
+          name: "Eleven",
+          title: "Buggy",
+          ages: 27,
+          weight: 71,
+          height: 177,
+          portraitUrl: "",
+          characteristics: {
+            strength: 100,
+            dexterity: 100,
+            intelligence: 100,
+            wisdom: 100,
+            magicPowerGrantedByUniverse: 100,
+            preferredEnvironments: [Environment.CITY, Environment.HILLS, Environment.MOUNTAINS,
+              Environment.RAINLANDS, Environment.FIELD]
+          }
+        }
+      ];
       heroService.getHeroes.and.returnValue(Observable.of(heroes));
 
       const action = HeroActions.loadHeroes();

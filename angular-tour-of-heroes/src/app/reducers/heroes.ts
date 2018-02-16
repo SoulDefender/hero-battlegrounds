@@ -1,11 +1,13 @@
 import { Hero } from '../hero';
 import {
   LOAD_HEROES_SUCCESS, LOAD_HERO_BY_ID_SUCCESS, ADD_HERO_SUCCESS, DELETE_HERO_SUCCESS, UPDATE_HERO_SUCCESS,
-  HeroActions
+  HeroActions, FightAction, HERO_FIGHT_RESULT
 } from "../actions/actions";
+import {FightResult} from "../fight-result";
 
 export interface HeroStore {
   heroes: Hero[];
+  fightResult: FightResult;
 }
 
 export function heroReducer(state: Hero[] = [], action: HeroActions) {
@@ -34,5 +36,13 @@ export function heroReducer(state: Hero[] = [], action: HeroActions) {
         return state.concat(action.payload as Hero);
     default:
       return state;
+  }
+}
+
+
+export function fightReducer(state: FightResult = undefined, action: FightAction) {
+  switch (action.type) {
+    case HERO_FIGHT_RESULT:
+      return action.payload as FightResult;
   }
 }

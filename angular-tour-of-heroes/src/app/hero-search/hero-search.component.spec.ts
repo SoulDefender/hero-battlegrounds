@@ -10,6 +10,8 @@ import { HeroService } from '../hero.service';
 import { MessageService } from '../message.service';
 import {Store, StoreModule} from "@ngrx/store";
 import {heroReducer, HeroStore} from "../reducers/heroes";
+import {SuiModule} from "ng2-semantic-ui";
+import {ReactiveFormsModule} from "@angular/forms";
 
 describe('HeroSearchComponent', () => {
   let component: HeroSearchComponent;
@@ -20,6 +22,7 @@ describe('HeroSearchComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+        ReactiveFormsModule,
         CommonModule,
         HttpClientModule,
         HttpClientTestingModule,
@@ -27,7 +30,8 @@ describe('HeroSearchComponent', () => {
           {
             "heroes": heroReducer
           }
-        )
+        ),
+        SuiModule
       ],
       providers: [HeroService, MessageService],
       declarations: [ HeroSearchComponent ]

@@ -9,12 +9,12 @@
   <div class="ui ui-segments">
     <div class="ui ui-segment">
       <p>Select Preferred Environments</p>
-      <sm-select class="fluid search multiple"
+      <sui-multi-select class="selection"
                         [(ngModel)]="hero.characteristics.preferredEnvironments"
-                        [options]="{transition: 'vertical flip'}"
-                        [label]="'Preferred Env'" ngDefaultControl>
-        <option *ngFor="let env of envs">{{env}}</option>
-      </sm-select>
+                        [options]="envs"
+                         ngDefaultControl>
+        <sui-select-option *ngFor="let env of envs" [value]="env"></sui-select-option>
+      </sui-multi-select>
     </div>
   </div>
 </div>

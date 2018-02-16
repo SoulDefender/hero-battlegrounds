@@ -8,7 +8,6 @@ import com.epam.microservice.sandbox.microservicesandbox.model.OpponentHeroes;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Optional;
 
 import static com.epam.microservice.sandbox.microservicesandbox.utils.Utils.scale2;
@@ -31,9 +30,9 @@ public class BattlegroundServiceImpl implements BattlegroundService {
 
 	@Override
 	public FightResult heroFights(OpponentHeroes opponents) {
-		Optional<HeroCharacteristics> firstHeroAbilities = opponents.getFirstHero()
+		Optional<HeroCharacteristics> firstHeroAbilities = opponents.getHero()
 				.getCharacteristics();
-		Optional<HeroCharacteristics> secondHeroAbilities = opponents.getSecondHero()
+		Optional<HeroCharacteristics> secondHeroAbilities = opponents.getOpponent()
 				.getCharacteristics();
 		Environment battleGround = opponents.getBattleground();
 		return firstHeroAbilities.flatMap(fha -> secondHeroAbilities.map(sha -> {
@@ -44,7 +43,7 @@ public class BattlegroundServiceImpl implements BattlegroundService {
 			secondHeroScore =
 					checkBattleGroundPreference(sha, battleGround, secondHeroScore);
 
-			return Optional.of(play(opponents.getFirstHero(), opponents.getSecondHero(),
+			return Optional.of(play(opponents.getHero(), opponents.getOpponent(),
 					fha, firstHeroScore, sha, secondHeroScore));
 		}).orElse(firstHeroWins(opponents, BigDecimal.ONE)))
 				.orElseThrow(IllegalArgumentException::new);
@@ -87,7 +86,7 @@ public class BattlegroundServiceImpl implements BattlegroundService {
 
 	private Optional<FightResult> firstHeroWins(OpponentHeroes opponents, BigDecimal firstHeroScore) {
 		return Optional.of(
-				new FightResult(opponents.getFirstHero(), opponents.getSecondHero(),
+				new FightResult(opponents.getHero(), opponents.getOpponent(),
 						convertToPercent(firstHeroScore)));
 	}
 

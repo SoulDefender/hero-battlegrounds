@@ -1,13 +1,21 @@
 <div class="ui grid">
-  <sm-segment class="column ten wide center">
+  <div class="column ten wide center ui">
     <h4>Hero Search</h4>
-    <sm-input class="fluid" #searchBox icon="search" placeholder="search"
-              [control]="searchTerms"></sm-input>
+    <div class="ui big icon input">
+      <input placeholder="Search hero..." type="text" [formControl]="searchTerms">
+      <i class="search icon"></i>
+    </div>
     <div class="ui divider"></div>
-    <sm-list class="animated divided relaxed">
-      <sm-item *ngFor="let hero of heroes$ | async" [image]="hero.portraitUrl" [header]="hero.title">
-        <a routerLink="/detail/{{hero.id}}">{{hero?.name}}</a>
-      </sm-item>
-    </sm-list>
-  </sm-segment>
+    <div class="ui relaxed animated divided list">
+      <div class="item" *ngFor="let hero of heroes$ | async">
+        <img [src]="hero.portraitUrl" alt="Hero Portrait" class="ui avatar image">
+        <div class="content">
+          <span>{{hero.title}}</span>
+          <a routerLink="/detail/{{hero.id}}" class="header">
+            {{hero?.name}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

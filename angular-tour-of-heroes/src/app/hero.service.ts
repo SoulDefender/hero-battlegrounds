@@ -8,7 +8,7 @@ import { MessageService } from './message.service';
 
 import { environment } from '../environments/environment';
 
-const httpOptions = {
+export const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
@@ -22,7 +22,7 @@ export class HeroService {
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.heroesUrl)
     .pipe(
-      tap(heroes => this.log(`fetched heroes`)),
+      tap(() => this.log(`fetched heroes`)),
       catchError(this.handleError('getHeroes', []))
     );
   }
@@ -107,5 +107,4 @@ export class HeroService {
   private log(message: string) {
     this.messageService.add('HeroService: ' + message);
   }
-
 }
