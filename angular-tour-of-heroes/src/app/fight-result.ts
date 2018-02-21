@@ -1,11 +1,5 @@
 import {Hero} from "./hero";
 
 export class FightResult {
-
-  winner: Hero;
-
-  loser: Hero;
-
-  probability: number;
-
+  public constructor(public winner: Hero, public loser: Hero, public probability: number) {}
 }

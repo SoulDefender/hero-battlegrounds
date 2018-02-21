@@ -27,10 +27,10 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
-  it(`should have as title 'Tour of Heroes'`, async(() => {
+  it(`should have as title 'Heroes Battleground'`, async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Tour of Heroes');
+    expect(app.title).toEqual('Heroes Battleground');
   }));
   it('should render navigation menu', async(() => {
     const fixture = TestBed.createComponent(AppComponent);

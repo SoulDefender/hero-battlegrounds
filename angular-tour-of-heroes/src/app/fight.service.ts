@@ -17,11 +17,13 @@ export class FightService {
   constructor(private messageService: MessageService, private http: HttpClient) { }
 
   fightHeroes(opponents: OpponentHeroes): Observable<FightResult> {
-    return this.http.post<FightResult>(this.fightUrl, opponents, httpOptions).pipe(
-      tap(() => this.log(`fought hero w/ hero=${opponents.hero.name} 
-      opponent=${opponents.opponent.name}`)),
-      catchError(this.handleError<FightResult>(`fightHeroes`))
-    );
+
+    // return this.http.post<FightResult>(this.fightUrl, opponents, httpOptions).pipe(
+    //   tap(() => this.log(`fought hero w/ hero=${opponents.hero.name}
+    //   opponent=${opponents.opponent.name}`)),
+    //   catchError(this.handleError<FightResult>(`fightHeroes`))
+    // );
+    return of(new FightResult(opponents.opponent, opponents.hero, 98))
   }
 
   /**

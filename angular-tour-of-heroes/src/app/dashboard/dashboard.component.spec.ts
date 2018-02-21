@@ -16,7 +16,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
-  let store: Store<HeroStore>
+  let store: Store<HeroStore>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

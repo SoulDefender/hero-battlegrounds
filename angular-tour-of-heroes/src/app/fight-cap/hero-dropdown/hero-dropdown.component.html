@@ -1,0 +1,19 @@
+<ng-template let-option #heroTemplate>
+  <img class="ui avatar image" [src]="option.portraitUrl">
+  <span>{{option.name}}</span>
+</ng-template>
+
+<div class="center ui padded segment">
+  <sui-select class="selection ui fluid dropdown"
+              [(ngModel)]="hero"
+              (ngModelChange)="heroChanged($event)"
+              [optionsLookup]="heroLookup"
+              labelField="name"
+              [isSearchable]="true"
+              [optionTemplate]="heroTemplate"
+              #heroSearchSelect>
+    <sui-select-option *ngFor="let hero of heroSearchSelect.filteredOptions" [value]="hero">
+    </sui-select-option>
+  </sui-select>
+  <app-hero-view *ngIf="hero" [hero]="hero"></app-hero-view>
+</div>

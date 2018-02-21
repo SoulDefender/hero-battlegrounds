@@ -22,6 +22,10 @@ import {EffectsModule} from "@ngrx/effects";
 import {HeroEffects} from "./effects/hero-effects";
 import {FightCapComponent} from './fight-cap/fight-cap.component';
 import {SuiModule} from "ng2-semantic-ui";
+import { HeroDropdownComponent } from './fight-cap/hero-dropdown/hero-dropdown.component';
+import {FightEffects} from "./effects/fight-effects";
+import {FightService} from "./fight.service";
+import { HeroViewComponent } from './hero-view/hero-view.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,9 @@ import {SuiModule} from "ng2-semantic-ui";
     MessagesComponent,
     DashboardComponent,
     HeroSearchComponent,
-    FightCapComponent
+    HeroDropdownComponent,
+    FightCapComponent,
+    HeroViewComponent
   ],
   imports: [
     BrowserModule,
@@ -49,10 +55,10 @@ import {SuiModule} from "ng2-semantic-ui";
       heroes: heroReducer,
       fightResult: fightReducer
     }),
-    EffectsModule.forRoot([HeroEffects]),
+    EffectsModule.forRoot([HeroEffects, FightEffects]),
     SuiModule
   ],
-  providers: [HeroService, MessageService],
+  providers: [HeroService, MessageService, FightService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

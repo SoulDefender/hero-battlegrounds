@@ -1,45 +1,31 @@
-<ng-template let-option #heroTemplate>
-  <img class="ui avatar image" [src]="option.portraitUrl">
-  <span>{{option.name}}</span>
-</ng-template>
 <div class="ui grid">
-  <div class="eight wide column">
-    <div class="center segment">
-      <sui-select class="selection ui fluid dropdown"
-                  [(ngModel)]="selectedHero"
-                  [optionsLookup]="heroLookup"
-                  labelField="name"
-                  [isSearchable]="true"
-                  [optionTemplate]="heroTemplate"
-                  #heroSearchSelect>
-        <sui-select-option *ngFor="let hero of heroSearchSelect.filteredOptions" [value]="hero">
-        </sui-select-option>
-      </sui-select>
-      <p *ngIf="selectedHero">
-        {{selectedHero | json}}
-      </p>
-    </div>
+  <div class="one wide column"></div>
+  <div class="seven wide column">
+    <app-hero-dropdown (selectedHero)="heroSelected($event)"></app-hero-dropdown>
   </div>
-  <div class="eight wide column">
-    <div class="segment">
-      <sui-select class="selection ui fluid dropdown"
-                  [(ngModel)]="selectedOpponent"
-                  [optionsLookup]="opponentHeroLookup"
-                  labelField="name"
-                  [isSearchable]="true"
-                  [optionTemplate]="heroTemplate"
-                  #heroOpponentSearchSelect>
-        <sui-select-option *ngFor="let hero of heroOpponentSearchSelect.filteredOptions" [value]="hero">
-        </sui-select-option>
-      </sui-select>
-      <p *ngIf="selectedOpponent">
-        {{selectedOpponent | json}}
-      </p>
-    </div>
+  <div class="seven wide column">
+    <app-hero-dropdown (selectedHero)="opponentSelected($event)"></app-hero-dropdown>
   </div>
+  <div class="one wide column"></div>
 </div>
 <div class="grid ui centered">
-  <button class="ui primary big basic button" (click)="fight($event)">
+  <button class="ui primary big basic button" (click)="fight($event)" [disabled]="!(hero && opponent)">
     <i class="military icon"></i>Fight
   </button>
+</div>
+
+<div class="grid ui centered" *ngIf="fightResult$ | async; let fightResult;">
+  <div class="three wide column"></div>
+  <div class="ui segment six wide column">
+    <h4 class="ui header red">
+      Winner: {{fightResult.winner.name}}
+    </h4>
+    <h4 class="ui header red">
+      Loser: {{fightResult.loser.name}}
+    </h4>
+    <h4 class="ui header red">
+      Probability: {{fightResult.probability}} %
+    </h4>
+  </div>
+  <div class="three wide column"></div>
 </div>

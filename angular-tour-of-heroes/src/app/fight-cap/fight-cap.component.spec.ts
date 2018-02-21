@@ -4,13 +4,15 @@ import {FightCapComponent} from './fight-cap.component';
 import {HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
 import {StoreModule} from "@ngrx/store";
-import {heroReducer} from "../reducers/heroes";
+import {fightReducer, heroReducer} from "../reducers/heroes";
 import {MessageService} from "../message.service";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
 import {HeroService} from "../hero.service";
 import {SuiModule} from "ng2-semantic-ui";
 import {FormsModule} from "@angular/forms";
+import {HeroDropdownComponent} from "./hero-dropdown/hero-dropdown.component";
+import {HeroViewComponent} from "../hero-view/hero-view.component";
 
 
 describe('FightCapComponent', () => {
@@ -27,13 +29,14 @@ describe('FightCapComponent', () => {
         HttpClientTestingModule,
         StoreModule.forRoot(
           {
-            "heroes": heroReducer
+            "heroes": heroReducer,
+            "fightResult": fightReducer
           }
         ),
         SuiModule
       ],
       providers: [HeroService, MessageService],
-      declarations: [ FightCapComponent ]
+      declarations: [ FightCapComponent, HeroDropdownComponent, HeroViewComponent ]
     })
     .compileComponents();
   }));

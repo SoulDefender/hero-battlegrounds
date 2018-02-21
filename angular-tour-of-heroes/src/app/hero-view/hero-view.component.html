@@ -1,0 +1,44 @@
+<div class="item">
+  <div class="ui small image">
+    <img [src]="hero.portraitUrl">
+  </div>
+  <div class="content">
+    <div class="header">{{hero.title}} {{hero.name}}</div>
+    <div class="meta">
+      <span class="stay">{{hero.ages}} years</span>
+      <span class="stay">{{hero.height}} sm</span>
+      <span class="stay">{{hero.weight}} kilo</span>
+    </div>
+    <div class="description">
+      <div *ngIf="hero.characteristics">
+        <h5 class="ui header">Abilities:</h5>
+        <div class="ui labels">
+        <span class="ui red label">
+          <i class="heart icon"></i> {{hero.characteristics.strength}}
+        </span>
+          <span class="ui green label">
+        <i class="paw icon"></i> {{hero.characteristics.dexterity}}
+        </span>
+          <span class="ui grey label">
+          <i class="eye icon"></i> {{hero.characteristics.wisdom}}
+        </span>
+          <span class="ui blue label">
+          <i class="info circle icon"></i> {{hero.characteristics.intelligence}}
+        </span>
+          <span class="ui purple label">
+          <i class="certificate icon"></i> {{hero.characteristics.magicPowerGrantedByUniverse}}
+        </span>
+        </div>
+        <h5 class="ui header">Envs:</h5>
+        <div class="ui large horizontal divided list">
+          <div class="item" *ngFor="let env of hero.characteristics.preferredEnvironments">
+            <div class="content">
+            <span class="ui label grey">{{env}}
+            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
