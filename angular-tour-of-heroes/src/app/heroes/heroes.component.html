@@ -1,12 +1,4 @@
 <h2>My Heroes</h2>
-<div>
-  <label for="">Hero name:
-    <input #heroName />
-  </label>
-  <button (click)="add(heroName.value); heroName.value=''">
-    Add hero
-  </button>
-</div>
 <div class="ui large aligned divided list">
   <div class="item" *ngFor="let hero of heroes$ | async">
     <img src="{{hero.portraitUrl}}" alt="Hero Portrait" class="ui avatar image">

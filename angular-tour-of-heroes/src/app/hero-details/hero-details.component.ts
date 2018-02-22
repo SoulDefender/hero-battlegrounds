@@ -1,5 +1,5 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {Environment, Hero} from '../hero';
+import {Component, Input, OnInit} from '@angular/core';
+import {Environment, Hero, HeroAbilities} from '../hero';
 import {ActivatedRoute} from '@angular/router';
 import {HeroService} from '../hero.service';
 import {Location} from '@angular/common';
@@ -7,6 +7,7 @@ import {Subject} from 'rxjs/Subject';
 import {Store} from "@ngrx/store";
 import {HeroStore} from "../reducers/heroes";
 import {HeroActions} from "../actions/actions";
+import {FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-hero-details',
@@ -15,17 +16,16 @@ import {HeroActions} from "../actions/actions";
 })
 export class HeroDetailsComponent implements OnInit {
 
+  public heroForm: FormGroup;
   @Input() hero: Hero;
   id: Subject<number> = new Subject<number>();
-  envs: string[] = [Environment.FIELD, Environment.RAINLANDS,
-    Environment.MOUNTAINS, Environment.CITY,
-    Environment.HILLS, Environment.MISTLANDS, Environment.SAND, Environment.SNOW];
 
 
   constructor(private route: ActivatedRoute,
               private heroService: HeroService,
               private location: Location,
-              private store: Store<HeroStore>) {
+              private store: Store<HeroStore>,
+              private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -37,16 +37,39 @@ export class HeroDetailsComponent implements OnInit {
     this.store.select('heroes').map(heroes => heroes.find(hero => hero.id === id))
       .subscribe(hero => {
         this.hero = hero;
-        console.log(hero);
+        let abilities = hero.characteristics;
+        let abilitiesValidators = [Validators.max(100), Validators.min(1), Validators.required];
+
+        this.heroForm = this.createHeroForm(hero, abilities, abilitiesValidators)
       });
+  }
+
+  private createHeroForm(hero: Hero, abilities: HeroAbilities, abilitiesValidator: ValidatorFn[]) {
+    return this.formBuilder.group({
+      name: [hero.name, [Validators.required, Validators.minLength(2)]],
+      title: [hero.title, [Validators.required, Validators.minLength(2)]],
+      ages: [hero.ages],
+      weight: [hero.weight],
+      height: [hero.height],
+      characteristics: this.formBuilder.group({
+        strength: [abilities.strength, abilitiesValidator],
+        dexterity: [abilities.dexterity, abilitiesValidator],
+        wisdom: [abilities.wisdom, abilitiesValidator],
+        intelligence: [abilities.intelligence, abilitiesValidator],
+        magicPowerGrantedByUniverse: [abilities.magicPowerGrantedByUniverse, abilitiesValidator],
+        preferredEnvironments: [abilities.preferredEnvironments,
+          Validators.required]
+      })
+    });
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  save(): void {
-    this.store.dispatch(HeroActions.updateHero(this.hero));
+  save(model: FormGroup): void {
+    console.log(model.value);
+    this.store.dispatch(HeroActions.updateHero(model.value));
     this.goBack()
   }
 }

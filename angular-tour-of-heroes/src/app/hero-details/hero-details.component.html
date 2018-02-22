@@ -1,22 +1,62 @@
-<div *ngIf="hero">
-  <h2>{{ hero.name | uppercase }} Details</h2>
-  <div><span>id: </span>{{hero.id}}</div>
-  <div>
-    <label>name:
-      <input [(ngModel)]="hero.name" placeholder="name">
-    </label>
-  </div>
-  <div class="ui ui-segments">
-    <div class="ui ui-segment">
-      <p>Select Preferred Environments</p>
-      <sui-multi-select class="selection"
-                        [(ngModel)]="hero.characteristics.preferredEnvironments"
-                        [options]="envs"
-                         ngDefaultControl>
-        <sui-select-option *ngFor="let env of envs" [value]="env"></sui-select-option>
-      </sui-multi-select>
+<div class="ui grid">
+  <div class="column five wide"></div>
+  <div class="column six wide">
+    <div *ngIf="hero" class="ui segment">
+      <h4 class="ui header">Hero Details</h4>
+
+      <form [formGroup]="heroForm" novalidate (ngSubmit)="save(heroForm)" class="ui form error">
+        <div class="field">
+          <label>Name</label>
+          <div class="ui field fluid input">
+            <input placeholder="Hero name..." formControlName="name">
+            <div *ngIf="!heroForm.controls['name'].valid" class="ui error message">
+              name is required
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Title</label>
+          <div class="ui fluid input">
+            <input placeholder="Hero title..." formControlName="title">
+            <div *ngIf="!heroForm.controls['title'].valid" class="ui error message">
+              title is required
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Ages</label>
+          <div class="ui field fluid input">
+            <input placeholder="Hero ages..." type="number" formControlName="ages">
+            <div *ngIf="!heroForm.controls['ages'].valid" class="ui error message">
+              ages is required
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Height</label>
+          <div class="ui field fluid input">
+            <input placeholder="Hero height..." type="number" formControlName="height">
+            <div *ngIf="!heroForm.controls['height'].valid" class="ui error message">
+              height is required
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Weight</label>
+          <div class="ui field fluid large input">
+            <input placeholder="Hero weight..." type="number" formControlName="weight">
+            <div *ngIf="!heroForm.controls['weight'].valid" class="ui error message">
+              Weight is required
+            </div>
+          </div>
+        </div>
+        <app-hero-abilities [abilitiesFrom]="heroForm.controls['characteristics']"></app-hero-abilities>
+        <div class="ui segment">
+          <button class="button ui large grey" (click)="goBack()">Back</button>
+          <button class="button ui large grey" type="submit" [disabled]="!heroForm.valid">Submit</button>
+        </div>
+      </form>
     </div>
   </div>
+  <div class="column wide five"></div>
 </div>
-<button (click)="goBack()">go back</button>
-<button (click)="save()">save</button>

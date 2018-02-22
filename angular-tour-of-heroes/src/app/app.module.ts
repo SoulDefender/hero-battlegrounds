@@ -26,6 +26,7 @@ import { HeroDropdownComponent } from './fight-cap/hero-dropdown/hero-dropdown.c
 import {FightEffects} from "./effects/fight-effects";
 import {FightService} from "./fight.service";
 import { HeroViewComponent } from './hero-view/hero-view.component';
+import { HeroCharacteristicsComponent } from './hero-details/hero-characteristics/hero-characteristics.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { HeroViewComponent } from './hero-view/hero-view.component';
     HeroSearchComponent,
     HeroDropdownComponent,
     FightCapComponent,
-    HeroViewComponent
+    HeroViewComponent,
+    HeroCharacteristicsComponent
   ],
   imports: [
     BrowserModule,

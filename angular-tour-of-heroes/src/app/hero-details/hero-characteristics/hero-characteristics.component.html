@@ -1,0 +1,36 @@
+<div class="ui segment" [formGroup]="abilitiesFrom">
+  <h3 class="ui header">Abilities</h3>
+  <div class="ui divider"></div>
+  <div class="ui left icon input">
+    <input placeholder="Strength" type="number" formControlName="strength">
+    <i class="heart icon red"></i>
+  </div>
+  <div class="ui left icon input">
+    <input placeholder="dexterity" type="number" formControlName="dexterity">
+    <i class="paw icon green"></i>
+  </div>
+  <div class="ui left icon input">
+    <input placeholder="wisdom" type="number" formControlName="wisdom">
+    <i class="eye icon grey"></i>
+  </div>
+  <div class="ui left icon input">
+    <input placeholder="intelligence" type="number" formControlName="intelligence">
+    <i class="info circle icon blue"></i>
+  </div>
+  <div class="ui left icon input">
+    <input placeholder="magicPowerGrantedByUniverse" type="number" formControlName="magicPowerGrantedByUniverse">
+    <i class="certificate icon purple"></i>
+  </div>
+
+  <div class="ui ui-segment">
+
+    <div class="field">
+      <label>Select Preferred Environments</label>
+      <sui-multi-select class="selection"
+                        formControlName="preferredEnvironments"
+                        [options]="envs">
+        <sui-select-option *ngFor="let env of envs" [value]="env"></sui-select-option>
+      </sui-multi-select>
+    </div>
+  </div>
+</div>
