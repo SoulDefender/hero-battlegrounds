@@ -27,6 +27,8 @@ import {FightEffects} from "./effects/fight-effects";
 import {FightService} from "./fight.service";
 import { HeroViewComponent } from './hero-view/hero-view.component';
 import { HeroCharacteristicsComponent } from './hero-details/hero-characteristics/hero-characteristics.component';
+import { HeroEditComponent } from './hero-details/hero-edit/hero-edit.component';
+import { HeroAddComponent } from './hero-details/hero-add/hero-add.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { HeroCharacteristicsComponent } from './hero-details/hero-characteristic
     HeroDropdownComponent,
     FightCapComponent,
     HeroViewComponent,
-    HeroCharacteristicsComponent
+    HeroCharacteristicsComponent,
+    HeroEditComponent,
+    HeroAddComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,5 @@
+import {Validators} from "@angular/forms";
+
 export class Hero {
   id: number;
   name: string;
@@ -7,6 +9,13 @@ export class Hero {
   height: number;
   portraitUrl: string;
   characteristics: HeroAbilities;
+
+  static defaultHero(): Hero {
+      let hero = new Hero();
+      hero.characteristics = new HeroAbilities();
+      hero.characteristics.preferredEnvironments = [];
+      return hero;
+  }
 }
 
 export class HeroAbilities {

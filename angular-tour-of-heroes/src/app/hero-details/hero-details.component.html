@@ -2,7 +2,7 @@
   <div class="column five wide"></div>
   <div class="column six wide">
     <div *ngIf="hero" class="ui segment">
-      <h4 class="ui header">Hero Details</h4>
+      <h4 class="ui header">{{title}}</h4>
 
       <form [formGroup]="heroForm" novalidate (ngSubmit)="save(heroForm)" class="ui form error">
         <div class="field">
@@ -22,6 +22,19 @@
               title is required
             </div>
           </div>
+        </div>
+        <div class="field">
+          <label>Portrait</label>
+          <div class="ui fluid input">
+            <input placeholder="Hero portrait..." formControlName="portraitUrl">
+            <div *ngIf="!heroForm.controls['portraitUrl'].valid" class="ui error message">
+              portraitUrl is required
+            </div>
+          </div>
+          <img *ngIf="heroForm.controls['portraitUrl']"
+               [src]="heroForm.controls['portraitUrl'].value"
+               class="ui small image"
+               alt="Hero Portrait">
         </div>
         <div class="field">
           <label>Ages</label>

@@ -1,13 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Environment, Hero, HeroAbilities} from '../hero';
-import {ActivatedRoute} from '@angular/router';
-import {HeroService} from '../hero.service';
-import {Location} from '@angular/common';
-import {Subject} from 'rxjs/Subject';
-import {Store} from "@ngrx/store";
-import {HeroStore} from "../reducers/heroes";
-import {HeroActions} from "../actions/actions";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Hero, HeroAbilities} from '../hero';
 import {FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {abilitiesValidators} from "../hero-validators";
 
 @Component({
   selector: 'app-hero-details',
@@ -16,42 +10,28 @@ import {FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 })
 export class HeroDetailsComponent implements OnInit {
 
-  public heroForm: FormGroup;
+  @Input() title: string;
   @Input() hero: Hero;
-  id: Subject<number> = new Subject<number>();
+  @Output() saveHero: EventEmitter<Hero> = new EventEmitter<Hero>();
+  @Output() goBackObservable: EventEmitter<any> = new EventEmitter<any>();
+  heroForm: FormGroup;
 
-
-  constructor(private route: ActivatedRoute,
-              private heroService: HeroService,
-              private location: Location,
-              private store: Store<HeroStore>,
-              private formBuilder: FormBuilder) {
+  constructor(private fb: FormBuilder) {
   }
 
   ngOnInit() {
-    this.getHero();
-  }
-
-  getHero(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.store.select('heroes').map(heroes => heroes.find(hero => hero.id === id))
-      .subscribe(hero => {
-        this.hero = hero;
-        let abilities = hero.characteristics;
-        let abilitiesValidators = [Validators.max(100), Validators.min(1), Validators.required];
-
-        this.heroForm = this.createHeroForm(hero, abilities, abilitiesValidators)
-      });
+    this.heroForm = this.createHeroForm(this.hero, this.hero.characteristics, abilitiesValidators);
   }
 
   private createHeroForm(hero: Hero, abilities: HeroAbilities, abilitiesValidator: ValidatorFn[]) {
-    return this.formBuilder.group({
+    return this.fb.group({
       name: [hero.name, [Validators.required, Validators.minLength(2)]],
       title: [hero.title, [Validators.required, Validators.minLength(2)]],
+      portraitUrl: [hero.portraitUrl, [Validators.required]],
       ages: [hero.ages],
       weight: [hero.weight],
       height: [hero.height],
-      characteristics: this.formBuilder.group({
+      characteristics: this.fb.group({
         strength: [abilities.strength, abilitiesValidator],
         dexterity: [abilities.dexterity, abilitiesValidator],
         wisdom: [abilities.wisdom, abilitiesValidator],
@@ -63,13 +43,11 @@ export class HeroDetailsComponent implements OnInit {
     });
   }
 
-  goBack(): void {
-    this.location.back();
+  save(model: FormGroup): void {
+    this.saveHero.emit(model.value);
   }
 
-  save(model: FormGroup): void {
-    console.log(model.value);
-    this.store.dispatch(HeroActions.updateHero(model.value));
-    this.goBack()
+  goBack() {
+    this.goBackObservable.emit();
   }
 }

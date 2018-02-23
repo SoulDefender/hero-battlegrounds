@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { of } from "rxjs/observable/of";
+import {Observable} from 'rxjs/Observable';
 import "rxjs/add/operator/take";
 
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Hero } from '../hero';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {Hero} from '../hero';
 import {HeroStore} from "../reducers/heroes";
 import {Store} from "@ngrx/store";
 import {FormControl} from "@angular/forms";

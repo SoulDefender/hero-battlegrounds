@@ -1,12 +1,21 @@
-<h2>My Heroes</h2>
-<div class="ui large aligned divided list">
-  <div class="item" *ngFor="let hero of heroes$ | async">
-    <img src="{{hero.portraitUrl}}" alt="Hero Portrait" class="ui avatar image">
-    <div class="content">
-      <a routerLink="/detail/{{hero.id}}" class="header">
-       {{hero.title}} {{hero.name}}
-      </a>
-      <!--<button class="delete" title="delete hero" (click)="delete(hero)">x</button> -->
+<div class="ui grid">
+  <div class="ui column four wide"></div>
+  <div class="ui column eight wide"><h2>My Heroes</h2>
+    <div class="ui large aligned divided list">
+      <div class="item" *ngFor="let hero of heroes$ | async">
+        <img src="{{hero.portraitUrl}}" alt="Hero Portrait" class="ui avatar image">
+        <div class="content">
+          <a routerLink="detail/{{hero.id}}" class="header">
+            {{hero.title}} {{hero.name}}
+          </a>
+          <!--<button class="delete" title="delete hero" (click)="delete(hero)">x</button> -->
+        </div>
+      </div>
+    </div>
+    <div class="ui grid">
+      <div class="ui centered row">
+        <a routerLink="add" class="ui green button big">Add new hero</a>
+      </div>
     </div>
   </div>
 </div>
