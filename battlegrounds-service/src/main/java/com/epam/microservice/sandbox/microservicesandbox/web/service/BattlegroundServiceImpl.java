@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import static com.epam.microservice.sandbox.microservicesandbox.utils.Constants.FIFTY_PERCENT;
+import static com.epam.microservice.sandbox.microservicesandbox.utils.Constants.ONE_HUNDRED;
+import static com.epam.microservice.sandbox.microservicesandbox.utils.Constants.TEN_PERCENT;
 import static com.epam.microservice.sandbox.microservicesandbox.utils.Utils.scale2;
 import static com.epam.microservice.sandbox.microservicesandbox.web.service.AbilityCheckServiceImpl.*;
 
@@ -18,9 +21,6 @@ import static com.epam.microservice.sandbox.microservicesandbox.web.service.Abil
  */
 @Service
 public class BattlegroundServiceImpl implements BattlegroundService {
-
-	private static final String TEN_PERCENT = "0.1";
-	private static final BigDecimal FIFTY_PERCENT = new BigDecimal("0.5");
 
 	private final AbilityCheckService abilityChecks;
 
@@ -94,7 +94,7 @@ public class BattlegroundServiceImpl implements BattlegroundService {
 												   Environment battleGround,
 												   BigDecimal probability) {
 		if (!doesHeroPreferTheEnv(heroAbilities, battleGround)) {
-			return probability.subtract(new BigDecimal(TEN_PERCENT));
+			return probability.subtract(TEN_PERCENT);
 		}
 		return probability;
 	}

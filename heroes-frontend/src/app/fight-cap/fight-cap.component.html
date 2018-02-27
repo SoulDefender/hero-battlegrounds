@@ -1,0 +1,44 @@
+<div class="ui grid">
+  <div class="ui row">
+    <div class="one wide column"></div>
+    <div class="seven wide column">
+      <app-hero-dropdown (selectedHero)="heroSelected($event)"></app-hero-dropdown>
+    </div>
+    <div class="seven wide column">
+      <app-hero-dropdown (selectedHero)="opponentSelected($event)"></app-hero-dropdown>
+    </div>
+    <div class="one wide column"></div>
+  </div>
+  <div class="ui row">
+    <div class="two wide column"></div>
+    <div class="twelve wide column">
+      <sui-select class="selection fluid"
+                        [(ngModel)]="env"
+                        [options]="envs">
+        <sui-select-option *ngFor="let env of envs" [value]="env"></sui-select-option>
+      </sui-select>
+    </div>
+    <div class="two wide column"></div>
+  </div>
+</div>
+<div class="grid ui centered">
+  <button class="ui primary big basic button" (click)="fight($event)" [disabled]="!(hero && opponent)">
+    <i class="military icon"></i>Fight
+  </button>
+</div>
+
+<div class="grid ui centered" *ngIf="fightResult$ | async; let fightResult;">
+  <div class="three wide column"></div>
+  <div class="ui segment six wide column">
+    <h4 class="ui header red">
+      Winner: {{fightResult.winner.name}}
+    </h4>
+    <h4 class="ui header red">
+      Loser: {{fightResult.loser.name}}
+    </h4>
+    <h4 class="ui header red">
+      Probability: {{fightResult.probability}} %
+    </h4>
+  </div>
+  <div class="three wide column"></div>
+</div>

@@ -10,10 +10,10 @@ import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
+import static com.epam.microservice.sandbox.microservicesandbox.utils.Constants.ONE_HUNDRED;
+
 @Service
 public class AbilityCheckServiceImpl implements AbilityCheckService {
-
-    public static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
 
     private final AbilityCheckHelper helper;
 

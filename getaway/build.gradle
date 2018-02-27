@@ -3,7 +3,31 @@ jar {
 }
 
 dependencies {
-    compile('org.springframework.cloud:spring-cloud-starter-zuul')
-    compile('org.springframework.cloud:spring-cloud-starter-eureka')
-    compile('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.cloud:spring-cloud-starter-zuul')
+    implementation('org.springframework.cloud:spring-cloud-starter-eureka')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    if (project.hasProperty("prod")) {
+        implementation project(':heroes-frontend')
+    }
+}
+
+def webappDir = "$projectDir/src/main/webapp"
+def frontendDir = "$projectDir/../heroes-frontend/dist"
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["$webappDir", "$projectDir/src/main/resources"]
+        }
+    }
+}
+
+processResources {
+    if (project.hasProperty("prod")) {
+        dependsOn "copyFrontend"
+    }
+}
+
+task copyFrontend(type: Copy) {
+    from(frontendDir)
+    into(webappDir)
 }
