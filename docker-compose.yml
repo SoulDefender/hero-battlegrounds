@@ -32,6 +32,7 @@ services:
     depends_on:
       - config
       - eureka
+      - redis
   eureka:
     build: ./eureka-service
     ports:
@@ -46,6 +47,8 @@ services:
     image: mongo:3.7.1-jessie
     volumes:
       - "dbdata:/data/db"
+  redis:
+    image: redis:3.2.11
 
 volumes:
   dbdata:

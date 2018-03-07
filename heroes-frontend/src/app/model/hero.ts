@@ -1,5 +1,3 @@
-import {Validators} from "@angular/forms";
-
 export class Hero {
   id: number;
   name: string;
