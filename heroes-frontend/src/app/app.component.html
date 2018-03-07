@@ -1,11 +1,11 @@
 <div class="ui top fixed menu">
   <a class="item" routerLink="/battleground" routerLinkActive="active">Battleground</a>
-  <div *ngIf="authenticated | async">
+  <div *ngIf="authenticated$ | async">
     <a class="item" routerLink="/heroes" routerLinkActive="active">Heroes</a>s
     <a class="item" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
   </div>
   <div class="right menu">
-    <a class="item" href="#">Log In</a>
+    <a class="item" routerLink="/login">Log In</a>
   </div>
 </div>
 <div class="main container">

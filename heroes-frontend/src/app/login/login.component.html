@@ -1,0 +1,30 @@
+<div class="ui grid center aligned">
+  <div class="five wide column"></div>
+  <div class="six wide column">
+    <div class="ui teal inverted segment">
+      <h3 class="ui header center">Login</h3>
+      <div class="ui divider"></div>
+      <form [formGroup]="loginForm" novalidate (ngSubmit)="send(loginForm)" class="ui form error">
+        <div class="field">
+          <label>Email</label>
+          <div class="ui field fluid input">
+            <input placeholder="Email..." formControlName="email">
+          </div>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <div class="ui fluid input">
+            <input placeholder="Password..." formControlName="password" type="password">
+          </div>
+        </div>
+        <div class="ui segment inverted teal">
+          <button class="button ui large grey" (click)="goBack()">Back</button>
+          <button class="button ui large blue" type="submit" [disabled]="!loginForm.valid">
+            Log In
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="five wide column"></div>
+</div>

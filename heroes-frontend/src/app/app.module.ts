@@ -37,6 +37,7 @@ import {AuthAction, HeroActions} from "./actions/actions";
 import {AuthInfo, AuthResponse} from "./model/auth";
 import {AuthInterceptor} from "./services/auth-interceptor";
 import {AuthService} from "./services/auth.service";
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {AuthService} from "./services/auth.service";
     HeroViewComponent,
     HeroCharacteristicsComponent,
     HeroEditComponent,
-    HeroAddComponent
+    HeroAddComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
