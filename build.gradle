@@ -12,6 +12,13 @@ buildscript {
 	}
 }
 
+plugins {
+    id 'com.bmuschko.docker-remote-api' version '3.2.3' apply false
+}
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
 allprojects {
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
@@ -22,9 +29,10 @@ allprojects {
 }
 
 configure(subprojects - project(":heroes-frontend")) {
+
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
-	
+
 	repositories {
 		mavenCentral()
 	}
@@ -47,4 +55,49 @@ configure(subprojects - project(":heroes-frontend")) {
 			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 		}
 	}
+}
+
+configure(subprojects - [project(":heroes-frontend"), project(":model")]) {
+    apply plugin: 'com.bmuschko.docker-remote-api'
+
+    docker {
+        registryCredentials {
+            username = getConfigurationProperty('DOCKER_USERNAME', 'docker.username')
+            password = getConfigurationProperty('DOCKER_PASSWORD', 'docker.password')
+            email = getConfigurationProperty('DOCKER_EMAIL', 'docker.email')
+        }
+    }
+
+    task createDockerfile(type: Dockerfile) {
+        destFile = project.file('build/docker/Dockerfile')
+        def appFileName = "/app/${jar.archiveName}"
+        def appPort = project.findProperty("app.port") as Integer
+        from 'openjdk:8-jre-alpine'
+        maintainer 'Maksutov Dmytro "maksutov.dmitry@gmail.com"'
+        copyFile jar.archiveName, appFileName
+        entryPoint 'java'
+        defaultCommand '-jar', appFileName
+        exposePort appPort
+        runCommand 'apk --update --no-cache add curl'
+        instruction "HEALTHCHECK CMD curl -f http://localhost:${appPort}/health || exit 1"
+    }
+
+    task syncWebAppArchive(type: Sync) {
+        dependsOn assemble
+        from jar.archivePath
+        into createDockerfile.destFile.parentFile
+    }
+
+    task buildImage(type: DockerBuildImage) {
+        dependsOn createDockerfile
+        inputDir = createDockerfile.destFile.parentFile
+        tag = "hero-$jar.baseName:$jar.version"
+    }
+
+    createDockerfile.dependsOn syncWebAppArchive
+}
+
+
+String getConfigurationProperty(String envVar, String sysProp) {
+    System.getenv(envVar) ?: project.findProperty(sysProp)
 }

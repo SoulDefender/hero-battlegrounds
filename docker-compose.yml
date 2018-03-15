@@ -2,8 +2,7 @@ version: '3.2'
 
 services:
   base-service:
-    image: base-microservice
-    build: ./base-service
+    iamge: hero-base-service
     depends_on:
       - hero-service
       - config
@@ -11,7 +10,7 @@ services:
     ports:
       - 8090:8090
   hero-service:
-    build: ./hero-service
+    image: hero-hero-service
     ports:
       - 8083:8083
     depends_on:
@@ -19,14 +18,14 @@ services:
       - eureka
       - db
   battlegrounds-service:
-    build: ./battlegrounds-service
+    image: hero-battlegrounds-service
     depends_on:
       - eureka
       - config
     ports:
       - 8094:8094
   getaway:
-    build: ./getaway
+    image: hero-getaway
     ports:
       - 8080:8080
     depends_on:
@@ -34,13 +33,13 @@ services:
       - eureka
       - redis
   eureka:
-    build: ./eureka-service
+    image: hero-eureka-service
     ports:
       - 8766:8766
     depends_on:
       - config
   config:
-    build: ./configuration-service
+    image: hero-configuration-service
     ports:
       - 7666:7666
   db:

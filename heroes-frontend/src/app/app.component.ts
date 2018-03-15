@@ -3,6 +3,7 @@ import {environment} from '../environments/environment';
 import {Observable} from "rxjs/Observable";
 import {AppStore} from "./reducers/app-store";
 import {Store} from "@ngrx/store";
+import {HeroActions} from "./actions/actions";
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.authenticated$ =
       this.store.select('auth').map(authInfo => authInfo.authenticated);
+    this.store.dispatch(HeroActions.loadHeroes());
   }
 
 }

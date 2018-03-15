@@ -1,6 +1,5 @@
 package com.epam.microservice.sandbox.microservicesandbox.config;
 
-import com.epam.microservice.sandbox.microservicesandbox.repository.TokenRepository;
 import com.epam.microservice.sandbox.microservicesandbox.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -78,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(preAuthenticatedAuthenticationProvider());
     }
 }

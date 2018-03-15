@@ -1,5 +1,6 @@
 jar {
     baseName = 'eureka-service'
+    version = '1.0-SNAPSHOT'
 }
 
 dependencies {
