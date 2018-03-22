@@ -2,6 +2,9 @@ jar {
     baseName = 'model'
 }
 
+bootRepackage.enabled = false
+bootRun.enabled=false
+
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
 }

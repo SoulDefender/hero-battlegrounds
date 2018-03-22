@@ -1,6 +1,5 @@
-import { InMemoryDbService } from 'angular-in-memory-web-api';
-import {Hero} from "./model/hero";
-import {Environment} from "./model/hero";
+import {InMemoryDbService} from 'angular-in-memory-web-api';
+import {Environment, Hero} from "./model/hero";
 
 export const heroes: Hero[] = [
   {

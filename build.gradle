@@ -16,8 +16,9 @@ plugins {
     id 'com.bmuschko.docker-remote-api' version '3.2.3' apply false
 }
 
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 allprojects {
 	apply plugin: 'java'

@@ -37,73 +37,73 @@ import {AuthAction, HeroActions} from "./actions/actions";
 import {AuthInfo, AuthResponse} from "./model/auth";
 import {AuthInterceptor} from "./services/auth-interceptor";
 import {AuthService} from "./services/auth.service";
-import { LoginComponent } from './login/login.component';
+import {LoginComponent} from './login/login.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeroesComponent,
-    HeroDetailsComponent,
-    MessagesComponent,
-    DashboardComponent,
-    HeroSearchComponent,
-    HeroDropdownComponent,
-    FightCapComponent,
-    HeroViewComponent,
-    HeroCharacteristicsComponent,
-    HeroEditComponent,
-    HeroAddComponent,
-    LoginComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, {dataEncapsulation: false}
-    ),
-    StoreModule.forRoot<AppStore>({
-      heroes: heroReducer,
-      fightResult: fightReducer,
-      auth: authReducer
-    }, {
-      initialState: {
-        auth: new AuthInfo(false, '')
-      }
-    }),
-    EffectsModule.forRoot([HeroEffects, FightEffects, AuthEffects]),
-    SuiModule
-  ],
-  providers: [HeroService, MessageService, FightService, AuthService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (store: Store<AppStore>) => function () {
-        if (localStorage.getItem("accessToken") &&
-          +localStorage.getItem("expireAt") > new Date().getMilliseconds())
-          store.dispatch(AuthAction.authSuccess(
-            new AuthResponse(
-              localStorage.getItem("accessToken"),
-              +localStorage.getItem("expireAt"),
-              localStorage.getItem("refreshToken")
-            )
-          ));
-        store.dispatch(HeroActions.loadHeroes());
-      },
-      deps: [Store],
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HeroesComponent,
+        HeroDetailsComponent,
+        MessagesComponent,
+        DashboardComponent,
+        HeroSearchComponent,
+        HeroDropdownComponent,
+        FightCapComponent,
+        HeroViewComponent,
+        HeroCharacteristicsComponent,
+        HeroEditComponent,
+        HeroAddComponent,
+        LoginComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
+        // and returns simulated server responses.
+        // Remove it when a real server is ready to receive requests.
+        HttpClientInMemoryWebApiModule.forRoot(
+            InMemoryDataService, {dataEncapsulation: false}
+        ),
+        StoreModule.forRoot<AppStore>({
+            heroes: heroReducer,
+            fightResult: fightReducer,
+            auth: authReducer
+        }, {
+            initialState: {
+                auth: {authenticated: false, token: ''} as AuthInfo
+            }
+        }),
+        EffectsModule.forRoot([HeroEffects, FightEffects, AuthEffects]),
+        SuiModule
+    ],
+    providers: [HeroService, MessageService, FightService, AuthService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (store: Store<AppStore>) => function () {
+                if (localStorage.getItem("accessToken") &&
+                    +localStorage.getItem("expireAt") > new Date().getMilliseconds())
+                    store.dispatch(AuthAction.authSuccess(
+                        new AuthResponse(
+                            localStorage.getItem("accessToken"),
+                            +localStorage.getItem("expireAt"),
+                            localStorage.getItem("refreshToken")
+                        )
+                    ));
+                store.dispatch(HeroActions.loadHeroes());
+            },
+            deps: [Store],
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

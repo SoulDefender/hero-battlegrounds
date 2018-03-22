@@ -4,50 +4,72 @@ services:
   base-service:
     iamge: hero-base-service
     depends_on:
-      - hero-service
-      - config
-      - eureka
+      hero-serive:
+        condition: service_healthy
+      config:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
     ports:
       - 8090:8090
+
   hero-service:
     image: hero-hero-service
     ports:
       - 8083:8083
     depends_on:
-      - config
-      - eureka
-      - db
+      config:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+
   battlegrounds-service:
     image: hero-battlegrounds-service
     depends_on:
-      - eureka
-      - config
+      eureka:
+        condition: service_healthy
+      config:
+        condition: service_healthy
     ports:
       - 8094:8094
+
   getaway:
     image: hero-getaway
     ports:
       - 8080:8080
     depends_on:
-      - config
-      - eureka
-      - redis
+      eureka:
+        condition: service_healthy
+      config:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
   eureka:
     image: hero-eureka-service
     ports:
       - 8766:8766
     depends_on:
-      - config
+      config:
+        condition: service_healthy
+
   config:
     image: hero-configuration-service
     ports:
       - 7666:7666
-  db:
+
+  mongodb:
     image: mongo:3.7.1-jessie
+    ports:
+      - 27017:27017
+      - 28017:28017
     volumes:
-      - "dbdata:/data/db"
+      - ~/heroes/mongo/storage:/data/db
+
   redis:
     image: redis:3.2.11
-
-volumes:
-  dbdata:
+    ports:
+      - 6379:6379
+      - 16379:16379

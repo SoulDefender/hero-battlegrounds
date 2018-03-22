@@ -7,13 +7,9 @@ import {MessageService} from './services/message.service';
 import {SuiModule} from "ng2-semantic-ui";
 import {Store, StoreModule} from "@ngrx/store";
 import {authReducer} from "./reducers/auth";
-import {LoginComponent} from "./login/login.component";
 import {HeroActions} from "./actions/actions";
 import {heroes} from "./in-memory-data.service";
 import {AppStore} from "./reducers/app-store";
-import {FightCapComponent} from "./fight-cap/fight-cap.component";
-import {Subject} from "rxjs/Subject";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {of} from "rxjs/observable/of";
 import Spy = jasmine.Spy;
 
