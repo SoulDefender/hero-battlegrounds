@@ -1,3 +1,16 @@
+buildscript {
+    repositories {
+        maven { url 'http://repo.spring.io/plugins-release' }
+    }
+    dependencies {
+        classpath 'io.spring.gradle:propdeps-plugin:0.0.9.RELEASE'
+    }
+}
+
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-maven'
+apply plugin: 'propdeps-idea'
+
 jar {
     baseName = 'getaway'
 }
@@ -9,9 +22,12 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('org.springframework.data:spring-data-redis:2.0.3.RELEASE')
     implementation('redis.clients:jedis:2.9.0')
+    implementation('io.jsonwebtoken:jjwt:0.9.0')
     if (project.hasProperty("prod")) {
         implementation project(':heroes-frontend')
     }
+
+    optional('org.springframework.boot:spring-boot-configuration-processor')
 }
 
 def webappDir = "$projectDir/src/main/webapp"
@@ -34,3 +50,6 @@ task copyFrontend(type: Copy) {
     from(frontendDir)
     into(webappDir)
 }
+
+// We need it for spring-configuration-processor to work
+compileJava.dependsOn(processResources)
