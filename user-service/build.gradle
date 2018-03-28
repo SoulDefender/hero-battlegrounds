@@ -1,0 +1,17 @@
+jar {
+    baseName = 'user-service'
+}
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.springframework.cloud:spring-cloud-starter-eureka')
+    implementation('org.springframework.cloud:spring-cloud-starter-hystrix')
+    implementation('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('mysql:mysql-connector-java')
+    implementation('org.javassist:javassist:3.18.2-GA')
+    implementation('org.modelmapper:modelmapper:1.1.0')
+    compile project(':model')
+    testCompile 'com.h2database:h2:1.4.194'
+}

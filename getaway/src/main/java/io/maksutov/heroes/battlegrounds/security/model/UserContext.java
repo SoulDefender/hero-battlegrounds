@@ -3,6 +3,7 @@ package io.maksutov.heroes.battlegrounds.security.model;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -11,7 +12,7 @@ import java.util.List;
  * <p>
  * Aug 4, 2016
  */
-public class UserContext {
+public class UserContext implements Serializable {
 
     private final String username;
     private final List<GrantedAuthority> authorities;

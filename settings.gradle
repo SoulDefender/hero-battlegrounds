@@ -1,2 +1,4 @@
 include 'base-service', 'configuration-service', 'hero-service', 'battlegrounds-service',
         'eureka-service', 'getaway', 'model', 'heroes-frontend'
+include 'user-service'
+

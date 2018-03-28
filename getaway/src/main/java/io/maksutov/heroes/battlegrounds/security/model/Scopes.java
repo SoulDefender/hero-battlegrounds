@@ -12,7 +12,6 @@ public enum Scopes {
 
 
     public String authority() {
-
         return "ROLE_" + this.name();
     }
 }

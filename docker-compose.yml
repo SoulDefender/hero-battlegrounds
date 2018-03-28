@@ -35,6 +35,18 @@ services:
     ports:
       - 8094:8094
 
+  user-service:
+    image: user-service
+    depends_on:
+      eureka:
+        condition: service_healthy
+      config:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    ports:
+      - 8095:8095
+
   getaway:
     image: hero-getaway
     ports:
@@ -68,8 +80,10 @@ services:
     volumes:
       - ~/heroes/mongo/storage:/data/db
 
-  redis:
-    image: redis:3.2.11
-    ports:
-      - 6379:6379
-      - 16379:16379
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: user_storage
+    volumes:
+      - ~/heroes/mysql/db/store:/var/lib/mysql
