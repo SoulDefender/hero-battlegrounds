@@ -1,7 +1,7 @@
 package io.maksutov.heroes.battlegrounds.model.user;
 
 public enum Role {
-    ADMIN, PREMIUM_MEMBER, MEMBER;
+    ADMIN, MEMBER;
 
 
     public String authority() {

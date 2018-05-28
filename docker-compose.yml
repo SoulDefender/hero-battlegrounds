@@ -1,10 +1,10 @@
-version: '3.2'
+version: '2.3'
 
 services:
   base-service:
-    iamge: hero-base-service
+    image: hero-base-service
     depends_on:
-      hero-serive:
+      hero-service:
         condition: service_healthy
       config:
         condition: service_healthy
@@ -19,11 +19,11 @@ services:
       - 8083:8083
     depends_on:
       config:
-        condition: service_healthy
+         condition: service_healthy
       eureka:
-        condition: service_healthy
+         condition: service_healthy
       mongodb:
-        condition: service_healthy
+         condition: service_healthy
 
   battlegrounds-service:
     image: hero-battlegrounds-service
@@ -56,8 +56,6 @@ services:
         condition: service_healthy
       config:
         condition: service_healthy
-      redis:
-        condition: service_healthy
 
   eureka:
     image: hero-eureka-service
@@ -85,5 +83,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: user_storage
+    ports:
+      - 3306:3306
     volumes:
       - ~/heroes/mysql/db/store:/var/lib/mysql

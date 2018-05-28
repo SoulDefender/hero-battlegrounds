@@ -17,13 +17,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
-import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -41,8 +37,8 @@ import static org.springframework.http.HttpMethod.POST;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String AUTHENTICATION_HEADER_NAME = "Authorization";
-    public static final String AUTHENTICATION_URL = "/api/auth/login";
-    public static final String REFRESH_TOKEN_URL = "/api/auth/token";
+    private static final String AUTHENTICATION_URL = "/api/auth/login";
+    private static final String REFRESH_TOKEN_URL = "/api/auth/token";
 
     private final RestAuthEntryPoint authenticationEntryPoint;
     private final AuthenticationSuccessHandler successHandler;
@@ -123,13 +119,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()]))
-                .permitAll()
+                .antMatchers(POST, "/api/heroes/**").authenticated()
+                .antMatchers(PUT, "/api/heroes/**").authenticated()
+                .antMatchers(permitAllEndpointList.toArray(new String[] {})).permitAll()
                 .and()
-                .antMatcher("/api/heroes/**").authorizeRequests()
-                .mvcMatchers(POST, PUT).authenticated()
-                .and()
-                .addFilterBefore(buildAjaxLoginProcessingFilter(AUTHENTICATION_URL), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(buildAjaxLoginProcessingFilter(AUTHENTICATION_URL),
+                        UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(permitAllEndpointList,
                         "/api/heroes/**"),
                         UsernamePasswordAuthenticationFilter.class);
