@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "APP_USER")
+@Table(name = "APP_USER", catalog = "user_storage")
 public class User {
 
     @Id @Column(name = "ID")

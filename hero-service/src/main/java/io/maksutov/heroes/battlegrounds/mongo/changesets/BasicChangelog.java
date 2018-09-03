@@ -1,4 +1,4 @@
-package io.maksutov.heroes.battlegrounds.changesets;
+package io.maksutov.heroes.battlegrounds.mongo.changesets;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,11 +28,11 @@ public class BasicChangelog {
         ObjectMapper mapper = new ObjectMapper();
         BulkOperations ops = mongoTemplate.bulkOps(UNORDERED, StoreConstants.HEROES_COLLECTION);
         Resource resource = new ClassPathResource("/heroes_dump.json");
-        List<Hero> heroes = mapper.readValue(resource.getInputStream(),
-                new TypeReference<List<Hero>>() {
+        List<Hero> heroes = mapper.readValue(resource.getInputStream(), new TypeReference<List<Hero>>() {
 
-                });
+        });
         ops.insert(heroes);
+        ops.execute();
     }
 
 }

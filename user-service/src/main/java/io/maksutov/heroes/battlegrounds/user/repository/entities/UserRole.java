@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "USER_ROLE")
+@Table(name = "USER_ROLE", catalog = "user_storage")
 public class UserRole {
 
     @Embeddable

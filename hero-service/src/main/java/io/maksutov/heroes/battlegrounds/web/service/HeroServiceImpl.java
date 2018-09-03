@@ -1,18 +1,31 @@
 package io.maksutov.heroes.battlegrounds.web.service;
 
+import com.mongodb.AggregationOptions;
+import com.mongodb.BasicDBObject;
+import com.mongodb.Cursor;
+import com.mongodb.DBObject;
 import io.maksutov.heroes.battlegrounds.model.Hero;
 import io.maksutov.heroes.battlegrounds.store.StoreConstants;
+import org.bson.Document;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import static io.maksutov.heroes.battlegrounds.store.StoreConstants.HEROES_COLLECTION;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregationOptions;
+
 
 /**
  * @author Dmytro_Maksutov
@@ -43,19 +56,16 @@ public class HeroServiceImpl implements HeroService {
 
 	@Override
 	public Page<Hero> findAllHeroes(Pageable pageable) {
-		Aggregation aggregation = Aggregation.newAggregation(
-				Aggregation.skip((long)pageable.getOffset()),
-				Aggregation.limit(pageable.getPageSize())
-		);
 
-		List<Hero> heroList = this.mongoTemplate
-				.aggregate(aggregation, "heroes", Hero.class).getMappedResults();
+		List<Hero> heroList = mongoTemplate
+				.find(new Query().with(pageable), Hero.class, HEROES_COLLECTION);
+
 		return new PageImpl<>(heroList, pageable, heroList.size());
 	}
 
 	@Override
 	public void addHero(Hero hero) {
 
-		this.mongoTemplate.save(hero, StoreConstants.HEROES_COLLECTION);
+		this.mongoTemplate.save(hero, HEROES_COLLECTION);
 	}
 }

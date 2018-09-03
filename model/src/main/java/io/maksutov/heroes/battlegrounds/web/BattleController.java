@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@RequestMapping(value = "/battlegrounds")
 public interface BattleController {
 
     @RequestMapping(value = "sparring", method = RequestMethod.POST,

@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static javax.ws.rs.HttpMethod.PUT;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 
@@ -39,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String AUTHENTICATION_HEADER_NAME = "Authorization";
     private static final String AUTHENTICATION_URL = "/api/auth/login";
     private static final String REFRESH_TOKEN_URL = "/api/auth/token";
+    public static final String API_HEROES = "/api/heroes/**";
 
     private final RestAuthEntryPoint authenticationEntryPoint;
     private final AuthenticationSuccessHandler successHandler;
@@ -119,14 +121,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(POST, "/api/heroes/**").authenticated()
-                .antMatchers(PUT, "/api/heroes/**").authenticated()
                 .antMatchers(permitAllEndpointList.toArray(new String[] {})).permitAll()
+                .antMatchers(GET, API_HEROES).permitAll()
+                .antMatchers(POST, API_HEROES).authenticated()
+                .antMatchers(PUT, API_HEROES).authenticated()
                 .and()
                 .addFilterBefore(buildAjaxLoginProcessingFilter(AUTHENTICATION_URL),
                         UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(permitAllEndpointList,
-                        "/api/heroes/**"),
+                        API_HEROES),
                         UsernamePasswordAuthenticationFilter.class);
     }
 
