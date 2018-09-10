@@ -11,12 +11,14 @@ import io.maksutov.heroes.battlegrounds.security.auth.jwt.extractor.TokenExtract
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -40,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String AUTHENTICATION_HEADER_NAME = "Authorization";
     private static final String AUTHENTICATION_URL = "/api/auth/login";
     private static final String REFRESH_TOKEN_URL = "/api/auth/token";
-    public static final String API_HEROES = "/api/heroes/**";
+    private static final String API_HEROES = "/api/heroes/**";
 
     private final RestAuthEntryPoint authenticationEntryPoint;
     private final AuthenticationSuccessHandler successHandler;
@@ -83,9 +85,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter(
             List<String> pathsToSkip, String pattern) {
 
-        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, pattern);
-        JwtTokenAuthenticationProcessingFilter filter
-                = new JwtTokenAuthenticationProcessingFilter(failureHandler, tokenExtractor, matcher);
+        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, pattern,
+                POST, HttpMethod.PUT, HttpMethod.DELETE);
+        JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(failureHandler, tokenExtractor, matcher);
         filter.setAuthenticationManager(this.authenticationManager);
         return filter;
     }
@@ -121,16 +123,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(permitAllEndpointList.toArray(new String[] {})).permitAll()
                 .antMatchers(GET, API_HEROES).permitAll()
                 .antMatchers(POST, API_HEROES).authenticated()
                 .antMatchers(PUT, API_HEROES).authenticated()
+                .antMatchers(permitAllEndpointList.toArray(new String[] {})).permitAll()
                 .and()
                 .addFilterBefore(buildAjaxLoginProcessingFilter(AUTHENTICATION_URL),
-                        UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(permitAllEndpointList,
+                        FilterSecurityInterceptor.class)
+                .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(Arrays.asList(
+                        AUTHENTICATION_URL,
+                        REFRESH_TOKEN_URL,
+                        "/console"),
                         API_HEROES),
-                        UsernamePasswordAuthenticationFilter.class);
+                        FilterSecurityInterceptor.class);
     }
 
 

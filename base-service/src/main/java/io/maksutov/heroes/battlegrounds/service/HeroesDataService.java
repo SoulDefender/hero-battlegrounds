@@ -7,9 +7,11 @@ import java.util.Collection;
 /**
  * @author Dmytro_Maksutov
  */
-public interface HeroDataReadService
+public interface HeroesDataService
 {
     Collection<Hero> fetchAllHeroes();
+
+    Hero addHero(Hero hero);
 
     Collection<Hero> fetchHeroes(int page, int limit);
 }

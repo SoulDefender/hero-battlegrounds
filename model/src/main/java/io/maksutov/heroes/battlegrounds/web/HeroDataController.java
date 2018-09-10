@@ -1,11 +1,13 @@
 package io.maksutov.heroes.battlegrounds.web;
 
 import io.maksutov.heroes.battlegrounds.model.Hero;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Collection;
 
@@ -33,5 +35,6 @@ public interface HeroDataController
 	
 	@RequestMapping(value = "heroes", method = RequestMethod.POST,
 		consumes = APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.CREATED)
 	void addHero(@RequestBody Hero hero);
 }

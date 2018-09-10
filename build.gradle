@@ -41,6 +41,7 @@ configure(subprojects - project(":heroes-frontend")) {
 	dependencies {
 		compileOnly('org.projectlombok:lombok')
 		implementation('one.util:streamex:0.6.6')
+		implementation('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.6')
 		testImplementation('org.springframework.boot:spring-boot-starter-test')
 		testImplementation('junit:junit:4.12')
 		testImplementation('org.hamcrest:hamcrest-junit:2.0.0.0')

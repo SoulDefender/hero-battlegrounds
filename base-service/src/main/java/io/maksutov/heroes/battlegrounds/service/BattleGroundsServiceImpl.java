@@ -3,6 +3,7 @@ package io.maksutov.heroes.battlegrounds.service;
 import io.maksutov.heroes.battlegrounds.model.FightResult;
 import io.maksutov.heroes.battlegrounds.model.OpponentHeroes;
 import io.maksutov.heroes.battlegrounds.remote.BattlegroundsClient;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 

@@ -4,11 +4,14 @@ import io.maksutov.heroes.battlegrounds.model.FightResult;
 import io.maksutov.heroes.battlegrounds.model.Hero;
 import io.maksutov.heroes.battlegrounds.model.OpponentHeroes;
 import io.maksutov.heroes.battlegrounds.service.BattleGroundsService;
-import io.maksutov.heroes.battlegrounds.service.HeroDataReadServiceImpl;
+import io.maksutov.heroes.battlegrounds.service.HeroesDataServiceImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -25,13 +28,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class HeroController
 {
 
-    private final HeroDataReadServiceImpl readService;
+    private final HeroesDataServiceImpl heroesService;
     private final BattleGroundsService battleGroundsService;
 
 
-    public HeroController(HeroDataReadServiceImpl readService,
+    public HeroController(HeroesDataServiceImpl heroesService,
             BattleGroundsService battleGroundsService) {
-        this.readService = readService;
+
+        this.heroesService = heroesService;
         this.battleGroundsService = battleGroundsService;
     }
 
@@ -40,11 +44,20 @@ public class HeroController
             consumes = APPLICATION_JSON_VALUE)
     @ResponseBody
     public Collection<Hero> heroData() {
-        return readService.fetchAllHeroes();
+
+        return heroesService.fetchAllHeroes();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE,
+            consumes = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Hero addHero(@RequestBody @Validated Hero hero) {
+
+        return heroesService.addHero(hero);
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE,
+    @RequestMapping(value = "/fight", method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE,
             consumes = APPLICATION_JSON_VALUE)
     public FightResult sparringHero(@RequestBody @Valid OpponentHeroes opponents) {
 
